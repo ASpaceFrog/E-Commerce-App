@@ -2,38 +2,31 @@ import java.util.HashMap;
 
 public class Inventory {
 
-    private HashMap<String, ProductStock> productInventory = new HashMap<>();
+    private HashMap<String, Integer> productQuantity = new HashMap<>(); // hashmap mapping id to quantities
+    private HashMap<String, Product> productInfo = new HashMap<>();
 
-    public HashMap<String, ProductStock> getProducts() {
-        return productInventory;
-    }
-
-    public void setProducts(HashMap<String, ProductStock> productStock) {
-        this.productInventory = productStock;
-    }
+    /* no constructor needed, Hashmap's constructor is sufficient */
 
     public int getStock(String id) {
-        return productInventory.get(id).getQuantity();
+        return productQuantity.getOrDefault(id, -1); //return 0 if no id entry exists
     }
 
     public void addStock(String id, int amount) {
-        productInventory.get(id).setQuantity( productInventory.get(id).getQuantity() + amount);
+        productQuantity.put(id, productQuantity.getOrDefault(id, 0) + amount);
     }
 
     public void removeStock(String id, int amount) {
-        if (productInventory.get(id) == null || productInventory.get(id).getQuantity() == 0) {
-            return;
-        }
-        else if (productInventory.get(id).getQuantity() - amount < 0) {
-            productInventory.get(id).setQuantity(0);
-        }
-        else {
-            productInventory.get(id).setQuantity( productInventory.get(id).getQuantity() - amount);
+        if (productQuantity.get(id) != null || productQuantity.get(id) != 0) {
+            if (productQuantity.get(id) - amount < 0) {
+                productQuantity.put(id, 0);
+            } else {
+                productQuantity.put(id, productQuantity.getOrDefault(id, 0) - amount);
+            }
         }
     }
 
-    public Product getInfo(String id){
-        return productInventory.get(id).getProduct();
+    public Product getInfo(String id) {
+        return productInfo.get(id);
 
     }
 
