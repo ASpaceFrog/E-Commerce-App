@@ -1,9 +1,9 @@
 public class Product {
     private final String name;
-    private final String id;
+    private final int id;
     private final double price;
 
-    public Product(String name, String id, double price){
+    public Product(String name, int id, double price){
         this.name = name;
         this.id = id;
         this.price = price;
@@ -13,7 +13,7 @@ public class Product {
         return name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
