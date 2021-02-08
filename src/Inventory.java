@@ -9,6 +9,7 @@ public class Inventory {
 
     /**
      * Get stock of given product id
+     *
      * @param id Product ID
      * @return Returns quantity of product. Returns -1 if no id entry exists
      */
@@ -18,11 +19,12 @@ public class Inventory {
 
     /**
      * Add stock of a given product, new products are allowed
+     *
      * @param myProduct Product of which stock is to be added
-     * @param amount Amount of stock to add
+     * @param amount    Amount of stock to add
      */
     public void addStock(Product myProduct, int amount) {
-        if (productQuantity.getOrDefault(myProduct.getId(), -1) < 0){ //product does not already exist
+        if (productQuantity.get(myProduct.getId()) == null) { //product does not already exist
             productInfo.put(myProduct.getId(), myProduct);
         }
         productQuantity.put(myProduct.getId(), productQuantity.getOrDefault(myProduct.getId(), 0) + amount); //add amount
@@ -30,8 +32,9 @@ public class Inventory {
     }
 
     /**
-     * Remove stock of a given product id
-     * @param id ID of stock to remove
+     * Remove stock of a given product id. If stock quantity becomes negative, set it to 0.
+     *
+     * @param id     ID of stock to remove
      * @param amount Amount of stock to remove
      */
     public void removeStock(int id, int amount) {
@@ -46,12 +49,12 @@ public class Inventory {
 
     /**
      * Return information of a given product id
+     *
      * @param id Product ID
-     * @return  Returns Product containing product information
+     * @return Returns Product containing product information
      */
     public Product getInfo(int id) {
         return productInfo.get(id);
-
     }
 
 }
