@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+scale 5
+
+class Product {
+    -name: String
+    -id: int
+    -price: double
+}
+
+class Inventory {
+    -productQuantity: HashMap<Integer, Integer>
+    -productInfo: HashMap<Integer, Integer>
+
+    +getStock(int id): int
+    +addStock(myProduct: Product, amount: int): void
+    +removeStock(int id, int amount): void
+    +getInfo(int id): Product
+}
+
+class StoreManager{
+    -myInventory: Inventory
+
+    +checkStock(Product myProduct): int
+    +processTransaction(int[][] transaction): double
+}
+
+@enduml

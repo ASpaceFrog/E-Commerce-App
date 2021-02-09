@@ -5,8 +5,6 @@ public class Inventory {
     private HashMap<Integer, Integer> productQuantity = new HashMap<>(); // hashmap mapping id to quantities
     private HashMap<Integer, Product> productInfo = new HashMap<>();  // hashmap mapping id to Product
 
-    /* no constructor needed, Hashmap's constructor is sufficient */
-
     /**
      * Get stock of given product id
      *
