@@ -10,7 +10,7 @@ class Product {
 
 class Inventory {
     -productQuantity: HashMap<Integer, Integer>
-    -productInfo: HashMap<Integer, Integer>
+    -productInfo: HashMap<Integer, Product>
 
     +getStock(int id): int
     +addStock(myProduct: Product, amount: int): void
