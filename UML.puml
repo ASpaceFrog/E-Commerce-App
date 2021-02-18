@@ -6,6 +6,8 @@ class Product {
     -name: String
     -id: int
     -price: double
+
+    +Product(name: String, id: int, price: double)
 }
 
 class Inventory {
