@@ -1,6 +1,8 @@
 @startuml
 'https://plantuml.com/class-diagram
 scale 5
+Inventory *-- Product
+StoreManager *-- Inventory
 
 class Product {
     -name: String
@@ -8,6 +10,8 @@ class Product {
     -price: double
 
     +Product(name: String, id: int, price: double)
+    +getId(): int
+    +getPrice(): double
 }
 
 class Inventory {
