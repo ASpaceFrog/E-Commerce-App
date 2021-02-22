@@ -7,8 +7,9 @@ public class Main {
         StoreManager s1 = new StoreManager();
 
         s1.getMyInventory().addStock(p1, 5);
+        s1.getMyInventory().addStock(p1, 5);
 
-        s1.getMyInventory().removeStock(p1.getId(), 2);
+        s1.getMyInventory().removeStock(p1.getId(), 7);
 
         System.out.println(s1.checkStock(p1));              //3
 
