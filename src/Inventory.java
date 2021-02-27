@@ -1,9 +1,24 @@
 import java.util.HashMap;
 
+/**
+ * A store's inventory
+ * Uses two HashMaps store product quantity and information
+ *
+ * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
+ * @version 1.1
+ */
 public class Inventory {
 
-    private HashMap<Integer, Integer> productQuantity = new HashMap<>(); // hashmap mapping id to quantities
-    private HashMap<Integer, Product> productInfo = new HashMap<>();  // hashmap mapping id to Product
+    private HashMap<Integer, Integer> productQuantity; // hashmap mapping id to quantities
+    private HashMap<Integer, Product> productInfo;     // hashmap mapping id to Product
+
+    /**
+     * Default Constructor for Inventory
+     * Adds 10 apples and 5 oranges to the inventory upon creation.
+     */
+    public Inventory(){
+        this(false);
+    }
 
     /**
      * Constructor for Inventory.
@@ -22,6 +37,14 @@ public class Inventory {
             productQuantity.put(2, 5);
             productInfo.put(2, new Product("orange", 2, 2.50));
         }
+    }
+
+    public HashMap<Integer, Integer> getProductQuantity() {
+        return productQuantity;
+    }
+
+    public HashMap<Integer, Product> getProductInfo() {
+        return productInfo;
     }
 
     /**
@@ -48,7 +71,8 @@ public class Inventory {
     }
 
     /**
-     * Remove stock of a given product id. If stock quantity becomes negative, set it to 0.
+     * Remove stock of a given product id.
+     * If stock quantity becomes negative, set it to 0.
      *
      * @param id     int, ID of stock to remove
      * @param amount int, Amount of stock to remove
