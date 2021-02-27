@@ -6,6 +6,18 @@ public class Inventory {
     private HashMap<Integer, Product> productInfo = new HashMap<>();  // hashmap mapping id to Product
 
     /**
+     * Default Constructor for Inventory
+     * Adds 10 apples and 5 oranges to the inventory upon creation
+     */
+    public Inventory(){
+        productQuantity.put(1,10);
+        productInfo.put(1, new Product("apple", 1, 2.00));
+
+        productQuantity.put(2,5);
+        productInfo.put(2, new Product("orange", 2, 2.50));
+    }
+
+    /**
      * Get stock of given product id
      *
      * @param id Product ID
