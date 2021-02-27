@@ -6,15 +6,22 @@ public class Inventory {
     private HashMap<Integer, Product> productInfo = new HashMap<>();  // hashmap mapping id to Product
 
     /**
-     * Default Constructor for Inventory
-     * Adds 10 apples and 5 oranges to the inventory upon creation
+     * Constructor for Inventory.
+     *
+     * @param initEmpty boolean, If true:  Adds 10 apples and 5 oranges to the inventory upon creation.
+     *                           If false: Init to empty inventory.
      */
-    public Inventory(){
-        productQuantity.put(1,10);
-        productInfo.put(1, new Product("apple", 1, 2.00));
+    public Inventory(boolean initEmpty){
+        productQuantity = new HashMap<>();
+        productInfo = new HashMap<>();
 
-        productQuantity.put(2,5);
-        productInfo.put(2, new Product("orange", 2, 2.50));
+        if(!initEmpty) {
+            productQuantity.put(1, 10);
+            productInfo.put(1, new Product("apple", 1, 2.00));
+
+            productQuantity.put(2, 5);
+            productInfo.put(2, new Product("orange", 2, 2.50));
+        }
     }
 
     /**
@@ -30,31 +37,44 @@ public class Inventory {
     /**
      * Add stock of a given product, new products are allowed
      *
-     * @param myProduct Product of which stock is to be added
-     * @param amount    Amount of stock to add
+     * @param myProduct Product, Product of which stock is to be added
+     * @param amount    int, Amount of stock to add
      */
     public void addStock(Product myProduct, int amount) {
         if (productQuantity.get(myProduct.getId()) == null) { //product does not already exist
             productInfo.put(myProduct.getId(), myProduct);
         }
         productQuantity.put(myProduct.getId(), productQuantity.getOrDefault(myProduct.getId(), 0) + amount); //add amount
-
     }
 
     /**
      * Remove stock of a given product id. If stock quantity becomes negative, set it to 0.
      *
-     * @param id     ID of stock to remove
-     * @param amount Amount of stock to remove
+     * @param id     int, ID of stock to remove
+     * @param amount int, Amount of stock to remove
+     * @param remIfZero boolean, remove the product if 0 stock or less (used for ShoppingCart)
      */
-    public void removeStock(int id, int amount) {
+    public void removeStock(int id, int amount, boolean remIfZero) {
         if (productQuantity.get(id) != null || productQuantity.get(id) != 0) {
-            if (productQuantity.get(id) - amount < 0) {
+            if (productQuantity.get(id) - amount <= 0) {
+                if (remIfZero){
+                    removeProduct(id);
+                }
                 productQuantity.put(id, 0);
             } else {
                 productQuantity.put(id, productQuantity.getOrDefault(id, 0) - amount);
             }
         }
+    }
+
+    /**
+     * Removes (deletes) a Product from the inventory
+     *
+     * @param id int, Product id corresponding to product to be removed
+     */
+    public void removeProduct(int id){
+        productQuantity.remove(id);
+        productInfo.remove(id);
     }
 
     /**
