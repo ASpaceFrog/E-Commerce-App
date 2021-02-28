@@ -23,17 +23,6 @@ public class StoreView {
         return String.valueOf(cartID);
     }
 
-    /**
-     * Prints UI
-     */
-    private void printShoppingCartInv() {
-        System.out.println("|--------------------THE COURSE STORE--------------------|");
-        System.out.println("\\------------------------------------------------------- /");
-        System.out.println("Type help for a list of commands.\n");
-        System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
-
-    }
-
     public void browse() {
         myStoreManager.printInventory();
     }
