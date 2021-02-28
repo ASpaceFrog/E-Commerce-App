@@ -11,13 +11,14 @@ public class ShoppingCart {
     /**
      * Default Constructor for ShoppingCart
      */
-    public ShoppingCart(){
+    public ShoppingCart() {
         userCart = new Inventory(true);
         totalPrice = 0;
     }
 
     /**
      * Get a shopping carts inventory
+     *
      * @return Inventory, ShoppingCart's inventory
      */
     public Inventory getUserCart() {
@@ -32,9 +33,9 @@ public class ShoppingCart {
      * Add a product to the user's cart
      *
      * @param myProduct Product, Product to add
-     * @param amount int, amount of product to add to cart
+     * @param amount    int, amount of product to add to cart
      */
-    public void addItemToCart(Product myProduct, int amount){
+    public void addItemToCart(Product myProduct, int amount) {
         userCart.addStock(myProduct, amount);
         totalPrice += myProduct.getPrice() * amount;
     }
@@ -42,11 +43,11 @@ public class ShoppingCart {
     /**
      * Remove a product from the user's cart
      *
-     * @param id int, ID of product to remove
+     * @param id     int, ID of product to remove
      * @param amount int, amount of Product to remove
      */
-    public void removeItemFromCart(int id, int amount){
-        if (userCart.getInfo(id) != null){
+    public void removeItemFromCart(int id, int amount) {
+        if (userCart.getInfo(id) != null) {
             userCart.removeStock(id, amount, true);
             totalPrice -= userCart.getInfo(id).getPrice() * amount;
         }

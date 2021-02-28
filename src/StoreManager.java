@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Manages a Store's inventory. Allows transactions for prodcuts to be made.
+ * Manages a Store's inventory. Allows transactions for products to be made.
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
  * @version 1.1
@@ -22,7 +22,7 @@ public class StoreManager {
     /**
      * Check how much stock of a given Product is in the Inventory
      *
-     * @param myProduct  Product, Product to check
+     * @param myProduct Product, Product to check
      * @return int, Returns amount of stock for given product. If product does not exist in inventory, returns -1.
      */
     public int checkStock(Product myProduct) {
@@ -31,6 +31,7 @@ public class StoreManager {
 
     /**
      * Create a new Shopping Cart
+     *
      * @return int, unique cart id
      */
     public int newShoppingCart() {
@@ -38,22 +39,20 @@ public class StoreManager {
         return userCarts.size() - 1; //Index of new shopping cart
     }
 
-    public boolean addToCart(int cartID, int productID, int quantity){
-        if (myInventory.getStock(productID)==-1 || myInventory.getStock(productID) - quantity < 0){
-            return  false;
-        }
-        else {
+    public boolean addToCart(int cartID, int productID, int quantity) {
+        if (myInventory.getStock(productID) == -1 || myInventory.getStock(productID) - quantity < 0) {
+            return false;
+        } else {
             userCarts.get(cartID).addItemToCart(myInventory.getInfo(productID), quantity);
             myInventory.removeStock(productID, quantity, false);
             return true;
         }
     }
 
-    public boolean removeFromCart(int cartID, int productID, int quantity){
-        if (userCarts.get(cartID).getUserCart().getStock(productID) - quantity < 0){
+    public boolean removeFromCart(int cartID, int productID, int quantity) {
+        if (userCarts.get(cartID).getUserCart().getStock(productID) - quantity < 0) {
             return false;
-        }
-        else{
+        } else {
             userCarts.get(cartID).removeItemFromCart(productID, quantity);
             myInventory.addStock(myInventory.getInfo(productID), quantity);
             return true;
@@ -63,11 +62,12 @@ public class StoreManager {
 
     /**
      * Removes all products from a cart and returns them to the store inventory
+     *
      * @param cartID int, Cart to empty
      */
-    public void emptyCart(int cartID){
+    public void emptyCart(int cartID) {
         int amount;
-        for (int i : userCarts.get(cartID).getUserCart().getProductQuantity().keySet()){
+        for (int i : userCarts.get(cartID).getUserCart().getProductQuantity().keySet()) {
             amount = userCarts.get(cartID).getUserCart().getStock(i);
             removeFromCart(cartID, i, amount); //removes stock and returns to inv
         }
@@ -75,50 +75,50 @@ public class StoreManager {
 
     /**
      * Removes items from a shopping cart and presents the total cost
+     *
      * @param cartID int, Cart ID
      */
     public boolean processTransaction(int cartID) {
-        String s = "";
+        String s;
 
         printCartInventory(cartID);
-        System.out.println("Total Cost: "+userCarts.get(cartID).getTotalPrice());
+        System.out.println("Total Cost: " + userCarts.get(cartID).getTotalPrice());
         System.out.println("Would you like to checkout this cart (Y/N)?");
 
-        String[] yn= new String[]{"Y", "N"};
+        String[] yn = new String[]{"Y", "N"};
         s = UserInput.getStringInput(yn);
-        if (s.equals("Y")){
+        if (s.equals("Y")) {
             userCarts.get(cartID).getUserCart().getProductQuantity().clear();
             userCarts.get(cartID).getUserCart().getProductInfo().clear();
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public void printInventory(){
+    public void printInventory() {
         System.out.println("|--------------------THE COURSE STORE--------------------|");
         System.out.println("\\------------------------------------------------------- /");
         System.out.println("Type 'help' for a list of commands.\n");
         System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
 
-        for (int i : myInventory.getProductQuantity().keySet()){
-            System.out.printf("%d | %s | %f | %d\n",i, myInventory.getInfo(i).getName(), myInventory.getInfo(i).getPrice(), myInventory.getStock(i));
+        for (int i : myInventory.getProductQuantity().keySet()) {
+            System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getName(), myInventory.getInfo(i).getPrice(), myInventory.getStock(i));
         }
-        System.out.printf("\n\n");
+        System.out.print("\n\n");
     }
 
-    public void printCartInventory(int cartID){
+    public void printCartInventory(int cartID) {
         System.out.println("|--------------------------CART--------------------------|");
         System.out.println("\\------------------------------------------------------- /");
         System.out.println("Type 'help' for a list of commands.\n");
         System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
 
         for (int i : userCarts.get(cartID).getUserCart().getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n",i, userCarts.get(cartID).getUserCart().getInfo(i).getName(),
-                                                       userCarts.get(cartID).getUserCart().getInfo(i).getPrice(),
-                                                       userCarts.get(cartID).getUserCart().getStock(i));
+            System.out.printf("%d | %s | %f | %d\n", i, userCarts.get(cartID).getUserCart().getInfo(i).getName(),
+                    userCarts.get(cartID).getUserCart().getInfo(i).getPrice(),
+                    userCarts.get(cartID).getUserCart().getStock(i));
         }
-        System.out.printf("\n\n");
+        System.out.print("\n\n");
     }
 }
