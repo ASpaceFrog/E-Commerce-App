@@ -17,8 +17,15 @@ public class StoreView {
         this.cartID = cartID;
     }
 
+    /**
+     * Available commands for user to input when connected to a store
+     */
     private static final String[] COMMANDS = {"browse", "viewCart", "add", "remove", "checkout", "help"};
 
+    /**
+     * Override= default to string method to return cart id
+     * @return String, cartID
+     */
     public String toString() {
         return String.valueOf(cartID);
     }
