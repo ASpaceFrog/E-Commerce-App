@@ -12,7 +12,7 @@ public class ShoppingCart {
      * Default Constructor for ShoppingCart
      */
     public ShoppingCart() {
-        userCart = new Inventory(true);
+        userCart = new Inventory();
         totalPrice = 0;
     }
 

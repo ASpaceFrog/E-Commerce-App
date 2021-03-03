@@ -14,28 +14,26 @@ public class Inventory {
 
     /**
      * Default Constructor for Inventory
-     * Adds 10 apples and 5 oranges to the inventory upon creation.
+     *
      */
     public Inventory(){
-        this(false);
+        this(null, null);
     }
 
     /**
-     * Constructor for Inventory.
-     *
-     * @param initEmpty boolean, If true:  Adds 10 apples and 5 oranges to the inventory upon creation.
-     *                           If false: Init to empty inventory.
+     * Init an inventory given an array of products and their corresponding quantities
+     * @param products Product[], array of Products
+     * @param quantities int[], array of Product stock
      */
-    public Inventory(boolean initEmpty){
+    public Inventory(Product[] products, int[] quantities){
         productQuantity = new HashMap<>();
         productInfo = new HashMap<>();
 
-        if(!initEmpty) {
-            productQuantity.put(1, 10);
-            productInfo.put(1, new Product("apple", 1, 2.00));
-
-            productQuantity.put(2, 5);
-            productInfo.put(2, new Product("orange", 2, 2.50));
+        if (products !=null && quantities !=null && products.length == quantities.length) {
+            for (int i=0; i<products.length; i++){
+                productQuantity.put(products[i].getId(), quantities[i]);
+                productInfo.put(products[i].getId(), products[i]);
+            }
         }
     }
 

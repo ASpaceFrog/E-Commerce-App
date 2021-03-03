@@ -7,7 +7,8 @@ import java.util.ArrayList;
  * @version 1.1
  */
 public class StoreManager {
-    private Inventory myInventory = new Inventory();
+    //init Inventory to some default values
+    private Inventory myInventory = new Inventory(new Product[]{new Product("apple", 1, 2.00), new Product("orange",2,2.5)}, new int[]{10,5});
     private ArrayList<ShoppingCart> userCarts = new ArrayList<>();
 
     /**
