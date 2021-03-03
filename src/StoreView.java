@@ -88,6 +88,10 @@ public class StoreView {
         System.out.println(COMMANDS[COMMANDS.length - 1]);
     }
 
+    /**
+     * Main Method for program execution
+     * @param args Unused: no parameters utilized in this version
+     */
     public static void main(String[] args) {
         StoreManager sm = new StoreManager();
         Scanner sc = new Scanner(System.in);

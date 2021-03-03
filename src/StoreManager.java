@@ -48,6 +48,16 @@ public class StoreManager {
         return userCarts.size() - 1; //Index of new shopping cart
     }
 
+    /**
+     * Add an existing product to a shopping Cart
+     * Removes stock from Store inventory and transfers stock to cart inventory
+     *
+     * @param cartID int, Cart ID of the desired cart
+     * @param productID int, Product ID of product to be added
+     * @param quantity int, amount of stock to add to the cart
+     * @return return true if valid product ID's and stock levels are passed,
+     *         else return false
+     */
     public boolean addToCart(int cartID, int productID, int quantity) {
         if (myInventory.getStock(productID) == -1 || myInventory.getStock(productID) - quantity < 0) {
             return false;
@@ -58,6 +68,16 @@ public class StoreManager {
         }
     }
 
+    /**
+     * Remove an existing product from a shopping cart
+     * Removes stock from cart inventory and transfers stock to store inventory
+     *
+     * @param cartID int, Cart ID of the desired cart
+     * @param productID int, Product ID of product to be removed
+     * @param quantity int, amount of removed from the cart
+     * @return return true if valid product ID's and stock levels are passed,
+     *         else return false
+     */
     public boolean removeFromCart(int cartID, int productID, int quantity) {
         if (userCarts.get(cartID).getUserCart().getStock(productID) - quantity < 0) {
             return false;
@@ -83,9 +103,12 @@ public class StoreManager {
     }
 
     /**
-     * Removes items from a shopping cart and presents the total cost
+     * Prompts the user the checkout their cart.
+     * Removes items from a shopping cart and presents the total cost.
      *
      * @param cartID int, Cart ID
+     *
+     * @return boolean, false if user aborts checkout, else returns true.
      */
     public boolean processTransaction(int cartID) {
         String s;

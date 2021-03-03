@@ -36,10 +36,20 @@ public class Inventory {
         }
     }
 
+    /**
+     * Get method for productQuantity HashMap
+     *
+     * @return HashMap<Integer, Integer>, hashmap mapping id to quantities
+     */
     public HashMap<Integer, Integer> getProductQuantity() {
         return productQuantity;
     }
 
+    /**
+     * Get method for productInfo HashMap
+     *
+     * @return HashMap<Integer, Products>, hashmap mapping id to Products
+     */
     public HashMap<Integer, Product> getProductInfo() {
         return productInfo;
     }
