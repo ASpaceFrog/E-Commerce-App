@@ -30,26 +30,49 @@ public class StoreView {
         return String.valueOf(cartID);
     }
 
+    /**
+     * Display's the Store's inventory
+     */
     public void browse() {
         myStoreManager.printInventory();
     }
 
+    /**
+     * Display's the User's cart
+     */
     public void viewCart() {
         myStoreManager.getUserCarts().get(cartID).printCartInventory();
     }
 
+    /**
+     * Add a Product to the User's cart
+     *
+     * @param id int, Product id
+     * @param amount int, amount to add to user
+     */
     public void addToUser(int id, int amount) {
         if (!myStoreManager.addToCart(cartID, id, amount)) {
             System.out.println("Error: Please enter a valid amount of stock to add to your cart!");
         }
     }
 
+    /**
+     * Remove a Product from the user'sCart
+     *
+     * @param id int, Product id
+     * @param amount int, amount to remove from user
+     */
     public void removeFromUser(int id, int amount) {
         if (!myStoreManager.removeFromCart(cartID, id, amount)) {
             System.out.println("Error: Please enter a valid amount of stock to remove from your cart!");
         }
     }
 
+    /**
+     * Checkout User's cart
+     *
+     * @return boolean, false if user aborts checkout
+     */
     public boolean checkout() {
         return myStoreManager.processTransaction(cartID);
     }

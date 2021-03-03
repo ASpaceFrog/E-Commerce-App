@@ -14,7 +14,6 @@ public class Inventory {
 
     /**
      * Default Constructor for Inventory
-     *
      */
     public Inventory(){
         this(null, null);

@@ -105,6 +105,9 @@ public class StoreManager {
         }
     }
 
+    /**
+     * Display the Store's Inventory
+     */
     public void printInventory() {
         System.out.println("|--------------------THE COURSE STORE--------------------|");
         System.out.println("\\------------------------------------------------------- /");

@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 /**
  * Provides functions to handle user input
+ *
+ * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
+ * @version 1.0
  */
 public class UserInput {
 

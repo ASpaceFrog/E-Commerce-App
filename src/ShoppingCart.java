@@ -25,6 +25,11 @@ public class ShoppingCart {
         return userCart;
     }
 
+    /**
+     * Get the total price of the User's cart
+     *
+     * @return double, total price of the User's cart
+     */
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -53,6 +58,9 @@ public class ShoppingCart {
         }
     }
 
+    /**
+     * Print the User's cart
+     */
     public void printCartInventory() {
         System.out.println("|--------------------------CART--------------------------|");
         System.out.println("\\------------------------------------------------------- /");
