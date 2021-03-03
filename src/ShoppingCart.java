@@ -48,8 +48,8 @@ public class ShoppingCart {
      */
     public void removeItemFromCart(int id, int amount) {
         if (userCart.getInfo(id) != null) {
-            userCart.removeStock(id, amount, true);
             totalPrice -= userCart.getInfo(id).getPrice() * amount;
+            userCart.removeStock(id, amount, true);
         }
     }
 }

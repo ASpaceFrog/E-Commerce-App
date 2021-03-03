@@ -79,12 +79,13 @@ public class Inventory {
      * @param remIfZero boolean, remove the product if 0 stock or less (used for ShoppingCart)
      */
     public void removeStock(int id, int amount, boolean remIfZero) {
-        if (productQuantity.get(id) != null || productQuantity.get(id) != 0) {
+        if (productQuantity.get(id) != null) {
             if (productQuantity.get(id) - amount <= 0) {
                 if (remIfZero){
                     removeProduct(id);
+                } else{
+                    productQuantity.put(id, 0);
                 }
-                productQuantity.put(id, 0);
             } else {
                 productQuantity.put(id, productQuantity.getOrDefault(id, 0) - amount);
             }

@@ -66,8 +66,6 @@ public class StoreView {
     }
 
     public static void main(String[] args) {
-        //TODO: remove is removing from the inventory, not the cart and it crashes lol
-
         StoreManager sm = new StoreManager();
         Scanner sc = new Scanner(System.in);
         ArrayList<StoreView> storeViews = new ArrayList<>();
@@ -115,7 +113,7 @@ public class StoreView {
                                 storeViews.get(i).addToUser(id, amount);
                             }
                             case "remove" -> {
-                                storeViews.get(i).browse();
+                                storeViews.get(i).viewCart();
                                 System.out.println("Please enter the id of the Product you wish to remove from your cart.");
                                 id = UserInput.getIntInput();
                                 System.out.println("Please enter the amount of the Product you wish to remove from your cart.");
