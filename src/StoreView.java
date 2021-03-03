@@ -35,7 +35,7 @@ public class StoreView {
     }
 
     public void viewCart() {
-        myStoreManager.printCartInventory(cartID);
+        myStoreManager.getUserCarts().get(cartID).printCartInventory();
     }
 
     public void addToUser(int id, int amount) {

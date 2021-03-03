@@ -21,6 +21,14 @@ public class StoreManager {
     }
 
     /**
+     *
+     * @return ArrayList<ShoppingCart>, ArrayList of userCarts
+     */
+    public ArrayList<ShoppingCart> getUserCarts() {
+        return userCarts;
+    }
+
+    /**
      * Check how much stock of a given Product is in the Inventory
      *
      * @param myProduct Product, Product to check
@@ -82,7 +90,7 @@ public class StoreManager {
     public boolean processTransaction(int cartID) {
         String s;
 
-        printCartInventory(cartID);
+        userCarts.get(cartID).printCartInventory();
         System.out.println("Total Cost: " + userCarts.get(cartID).getTotalPrice());
         System.out.println("Would you like to checkout this cart (Y/N)?");
 
@@ -105,20 +113,6 @@ public class StoreManager {
 
         for (int i : myInventory.getProductQuantity().keySet()) {
             System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getName(), myInventory.getInfo(i).getPrice(), myInventory.getStock(i));
-        }
-        System.out.print("\n\n");
-    }
-
-    public void printCartInventory(int cartID) {
-        System.out.println("|--------------------------CART--------------------------|");
-        System.out.println("\\------------------------------------------------------- /");
-        System.out.println("Type 'help' for a list of commands.\n");
-        System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
-
-        for (int i : userCarts.get(cartID).getUserCart().getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, userCarts.get(cartID).getUserCart().getInfo(i).getName(),
-                    userCarts.get(cartID).getUserCart().getInfo(i).getPrice(),
-                    userCarts.get(cartID).getUserCart().getStock(i));
         }
         System.out.print("\n\n");
     }
