@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * A Product that is sold by the store
  *
@@ -45,4 +47,25 @@ public class Product {
         return price;
     }
 
+    /**
+     * Check if two products are equal
+     * @param o Object, object to check if equal
+     * @return boolean, true if equal, false if not equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Double.compare(product.price, price) == 0 && name.equals(product.name);
+    }
+
+    /**
+     *
+     * @return int, HashCode of a Product
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id, price);
+    }
 }
