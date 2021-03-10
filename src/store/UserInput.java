@@ -1,3 +1,5 @@
+package store;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -124,7 +126,7 @@ public class UserInput {
     /**
      * Prints an array with each element on its own line
      *
-     * @param sv Integer[], StoreView array to be printed
+     * @param sv Integer[], store.StoreView array to be printed
      */
     public static void printArray(ArrayList<StoreView> sv) {
         for (StoreView storeView : sv) {

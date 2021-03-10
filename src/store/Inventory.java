@@ -1,3 +1,5 @@
+package store;
+
 import java.util.HashMap;
 
 /**
@@ -10,10 +12,10 @@ import java.util.HashMap;
 public class Inventory {
 
     private HashMap<Integer, Integer> productQuantity; // hashmap mapping id to quantities
-    private HashMap<Integer, Product> productInfo;     // hashmap mapping id to Product
+    private HashMap<Integer, Product> productInfo;     // hashmap mapping id to store.Product
 
     /**
-     * Default Constructor for Inventory
+     * Default Constructor for store.Inventory
      */
     public Inventory(){
         this(null, null);
@@ -21,8 +23,8 @@ public class Inventory {
 
     /**
      * Init an inventory given an array of products and their corresponding quantities
-     * @param products Product[], array of Products
-     * @param quantities int[], array of Product stock
+     * @param products store.Product[], array of Products
+     * @param quantities int[], array of store.Product stock
      */
     public Inventory(Product[] products, int[] quantities){
         productQuantity = new HashMap<>();
@@ -57,7 +59,7 @@ public class Inventory {
     /**
      * Get stock of given product id
      *
-     * @param id Product ID
+     * @param id store.Product ID
      * @return Returns quantity of product. Returns -1 if no id entry exists
      */
     public int getStock(int id) {
@@ -67,7 +69,7 @@ public class Inventory {
     /**
      * Add stock of a given product, new products are allowed
      *
-     * @param myProduct Product, Product of which stock is to be added
+     * @param myProduct store.Product, store.Product of which stock is to be added
      * @param amount    int, Amount of stock to add
      */
     public void addStock(Product myProduct, int amount) {
@@ -83,7 +85,7 @@ public class Inventory {
      *
      * @param id     int, ID of stock to remove
      * @param amount int, Amount of stock to remove
-     * @param remIfZero boolean, remove the product if 0 stock or less (used for ShoppingCart)
+     * @param remIfZero boolean, remove the product if 0 stock or less (used for store.ShoppingCart)
      */
     public void removeStock(int id, int amount, boolean remIfZero) {
         if (productQuantity.get(id) != null) {
@@ -100,9 +102,9 @@ public class Inventory {
     }
 
     /**
-     * Removes (deletes) a Product from the inventory
+     * Removes (deletes) a store.Product from the inventory
      *
-     * @param id int, Product id corresponding to product to be removed
+     * @param id int, store.Product id corresponding to product to be removed
      */
     public void removeProduct(int id){
         productQuantity.remove(id);
@@ -112,8 +114,8 @@ public class Inventory {
     /**
      * Return information of a given product id
      *
-     * @param id Product ID
-     * @return Returns Product containing product information
+     * @param id store.Product ID
+     * @return Returns store.Product containing product information
      */
     public Product getInfo(int id) {
         return productInfo.get(id);

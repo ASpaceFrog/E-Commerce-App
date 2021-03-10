@@ -1,3 +1,5 @@
+package store;
+
 /**
  * A User's shopping cart
  *
@@ -9,7 +11,7 @@ public class ShoppingCart {
     private double totalPrice;
 
     /**
-     * Default Constructor for ShoppingCart
+     * Default Constructor for store.ShoppingCart
      */
     public ShoppingCart() {
         userCart = new Inventory();
@@ -19,7 +21,7 @@ public class ShoppingCart {
     /**
      * Get a shopping carts inventory
      *
-     * @return Inventory, ShoppingCart's inventory
+     * @return store.Inventory, store.ShoppingCart's inventory
      */
     public Inventory getUserCart() {
         return userCart;
@@ -37,7 +39,7 @@ public class ShoppingCart {
     /**
      * Add a product to the user's cart
      *
-     * @param myProduct Product, Product to add
+     * @param myProduct store.Product, store.Product to add
      * @param amount    int, amount of product to add to cart
      */
     public void addItemToCart(Product myProduct, int amount) {
@@ -49,7 +51,7 @@ public class ShoppingCart {
      * Remove a product from the user's cart
      *
      * @param id     int, ID of product to remove
-     * @param amount int, amount of Product to remove
+     * @param amount int, amount of store.Product to remove
      */
     public void removeItemFromCart(int id, int amount) {
         if (userCart.getInfo(id) != null) {
