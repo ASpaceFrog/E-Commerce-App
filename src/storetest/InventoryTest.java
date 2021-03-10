@@ -1,10 +1,13 @@
 package storetest;
+
 import org.junit.jupiter.api.Test;
-import store.*;
+import store.Inventory;
+import store.Product;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class InventoryTest {
 
@@ -12,7 +15,7 @@ class InventoryTest {
     void getProductQuantity() {
         Product p1 = new Product("book", 0, 10);
         Product p2 = new Product("coffee", 3, 500);
-        HashMap <Integer, Integer> h1 = new HashMap<>();
+        HashMap<Integer, Integer> h1 = new HashMap<>();
 
         Product[] products = {p1, p2};
         int[] quantities = {15, 100};
@@ -28,7 +31,7 @@ class InventoryTest {
     void getProductInfo() {
         Product p1 = new Product("book", 0, 10);
         Product p2 = new Product("coffee", 3, 500);
-        HashMap <Integer, Product> h2 = new HashMap<>();
+        HashMap<Integer, Product> h2 = new HashMap<>();
 
         Product[] products = {p1, p2};
         int[] quantities = {15, 100};
