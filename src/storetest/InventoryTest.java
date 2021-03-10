@@ -3,11 +3,8 @@ package storetest;
 import org.junit.jupiter.api.Test;
 import store.Inventory;
 import store.Product;
-
 import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryTest {
 
