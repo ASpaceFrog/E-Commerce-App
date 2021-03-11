@@ -1,6 +1,7 @@
 package store;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Manages a Store's inventory. Allows transactions for products to be made.
@@ -98,7 +99,11 @@ public class StoreManager {
      */
     public void emptyCart(int cartID) {
         int amount;
-        for (int i : userCarts.get(cartID).getUserCart().getProductQuantity().keySet()) {
+        Set<Integer> hashSet = userCarts.get(cartID).getUserCart().getProductQuantity().keySet();
+        Integer[] keys = new Integer[hashSet.size()];
+        hashSet.toArray(keys);
+
+        for (int i : keys) {
             amount = userCarts.get(cartID).getUserCart().getStock(i);
             removeFromCart(cartID, i, amount); //removes stock and returns to inv
         }
