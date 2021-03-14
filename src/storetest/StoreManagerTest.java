@@ -1,12 +1,11 @@
 package storetest;
 
 // JUnit imports
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Import classes from Store package
-import store.Inventory;
 import store.Product;
 import store.ShoppingCart;
 import store.StoreManager;
@@ -23,9 +22,16 @@ import java.util.HashMap;
  */
 class StoreManagerTest{
 
+    StoreManager sm;
+
+    @BeforeEach
+    void init(){
+        sm = new StoreManager();
+    }
+
     @Test
     void testGetMyInventory() {
-        StoreManager sm = new StoreManager();
+        new StoreManager();
 
         Product p1 = new Product("apple", 1, 2.00); // Same arguments as the Product in StoreManager
         Product p2 = new Product("orange",2,2.5); // Same arguments as the Product in StoreManager
@@ -43,23 +49,18 @@ class StoreManagerTest{
         pQuantity.put(2 , 5);
         pInfo.put(2 , p2);
 
-        // Init myInventory with same values
-        Inventory myInventory = new Inventory(new Product[]{p1, p2}, new int[]{10,5});
-
         assertEquals(pQuantity, sm.getMyInventory().getProductQuantity());
         assertEquals(pInfo, sm.getMyInventory().getProductInfo());
     }
 
     @Test
     void testGetUserCarts() {
-        StoreManager sm = new StoreManager();
         ArrayList<ShoppingCart> uc = new ArrayList<>();
         assertEquals(uc, sm.getUserCarts());
     }
 
     @Test
     void testCheckStock() {
-        StoreManager sm = new StoreManager();
         Product p1 = new Product("apple", 1, 2.00); // Same arguments as the Product in StoreManager
         Product p2 = new Product("orange",2,2.5); // Same arguments as the Product in StoreManager
         Product p3 = new Product("banana", 3, 1.99); // Product not in StoreManager
@@ -71,37 +72,33 @@ class StoreManagerTest{
 
     @Test
     void testNewShoppingCart() {
-        StoreManager sm = new StoreManager();
         assertEquals(0, sm.newShoppingCart()); // First ShoppingCart will have id 0
         assertEquals(1, sm.newShoppingCart()); // Next ShoppingCart will have id 1
     }
 
     @Test
     void testAddToCart() {
-        StoreManager sm = new StoreManager();
         sm.newShoppingCart(); // Create new cart, id will be 0
 
-        assertEquals(true, sm.addToCart(0, 1, 1)); // Product created by StoreManager
-        assertEquals(false, sm.addToCart(0, 5, 5));
+        assertTrue(sm.addToCart(0, 1, 1)); // Product created by StoreManager
+        assertFalse(sm.addToCart(0, 5, 5));
     }
 
     @Test
     void testRemoveFromCart() {
-        StoreManager sm = new StoreManager();
         sm.newShoppingCart();  // Create new cart, id will be 0
 
         sm.addToCart(0, 1, 1);
         sm.addToCart(0, 2, 3);
 
-        assertEquals(true, sm.removeFromCart(0, 1 , 1));
-        assertEquals(false, sm.removeFromCart(0, 1, 1));
-        assertEquals(true, sm.removeFromCart(0, 2, 2));
+        assertTrue(sm.removeFromCart(0, 1 , 1));
+        assertFalse(sm.removeFromCart(0, 1, 1));
+        assertTrue(sm.removeFromCart(0, 2, 2));
 
     }
 
     @Test
     void testEmptyCart() {
-        StoreManager sm = new StoreManager();
         sm.newShoppingCart();  // Create new cart, id will be 0
 
         sm.addToCart(0, 1, 1);
