@@ -1,5 +1,6 @@
 package storetest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import store.Inventory;
 import store.Product;
@@ -7,11 +8,21 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryTest {
+    Product p1;
+    Product p2;
+    Product[] products;
+    int[] quantities;
+
+    @BeforeEach
+    void init(){
+        p1 = new Product("book", 0, 10);
+        p2 = new Product("coffee", 3, 500);
+        products = new Product[]{p1, p2};
+        quantities = new int[]{15, 100};
+    }
 
     @Test
     void getProductQuantity() {
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         HashMap<Integer, Integer> h1 = new HashMap<>();
 
         Product[] products = {p1, p2};
@@ -26,8 +37,6 @@ class InventoryTest {
 
     @Test
     void getProductInfo() {
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         HashMap<Integer, Product> h2 = new HashMap<>();
 
         Product[] products = {p1, p2};
@@ -42,8 +51,6 @@ class InventoryTest {
 
     @Test
     void getStock() {
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         Product[] products = {p1, p2};
         int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
@@ -56,8 +63,6 @@ class InventoryTest {
     @Test
     void addStock() {
         Inventory inv = new Inventory();
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         inv.addStock(p1, 15);
         inv.addStock(p2, 100);
 
@@ -68,8 +73,6 @@ class InventoryTest {
 
     @Test
     void removeStock() {
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         Product[] products = {p1, p2};
         int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
@@ -89,8 +92,6 @@ class InventoryTest {
 
     @Test
     void removeProduct() {
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         Product[] products = {p1, p2};
         int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
@@ -103,8 +104,6 @@ class InventoryTest {
 
     @Test
     void getInfo() {
-        Product p1 = new Product("book", 0, 10);
-        Product p2 = new Product("coffee", 3, 500);
         Product[] products = {p1, p2};
         int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
