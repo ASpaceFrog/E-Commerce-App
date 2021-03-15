@@ -26,9 +26,6 @@ class InventoryTest {
     @Test
     void getProductQuantity() {
         HashMap<Integer, Integer> h1 = new HashMap<>();
-
-        Product[] products = {p1, p2};
-        int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
 
         h1.put(0, 15);
@@ -40,9 +37,6 @@ class InventoryTest {
     @Test
     void getProductInfo() {
         HashMap<Integer, Product> h2 = new HashMap<>();
-
-        Product[] products = {p1, p2};
-        int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
 
         h2.put(0, p1);
@@ -53,8 +47,6 @@ class InventoryTest {
 
     @Test
     void getStock() {
-        Product[] products = {p1, p2};
-        int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
 
         assertEquals(15, inv.getStock(0));
@@ -75,8 +67,6 @@ class InventoryTest {
 
     @Test
     void removeStock() {
-        Product[] products = {p1, p2};
-        int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
 
         inv.removeStock(0, 3, false);
@@ -94,8 +84,6 @@ class InventoryTest {
 
     @Test
     void removeProduct() {
-        Product[] products = {p1, p2};
-        int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
 
         inv.removeProduct(-42);
@@ -106,8 +94,6 @@ class InventoryTest {
 
     @Test
     void getInfo() {
-        Product[] products = {p1, p2};
-        int[] quantities = {15, 100};
         Inventory inv = new Inventory(products, quantities);
 
         assertNull(inv.getInfo(-42));
