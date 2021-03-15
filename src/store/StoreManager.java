@@ -38,7 +38,7 @@ public class StoreManager {
      * @return int, Returns amount of stock for given product. If product does not exist in inventory, returns -1.
      */
     public int checkStock(Product myProduct) {
-        return myInventory.getStock(myProduct.getId());
+        return myInventory.getStock(myProduct.getID());
     }
 
     /**
@@ -145,7 +145,7 @@ public class StoreManager {
         System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
 
         for (int i : myInventory.getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getName(), myInventory.getInfo(i).getPrice(), myInventory.getStock(i));
+            System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getNAME(), myInventory.getInfo(i).getPRICE(), myInventory.getStock(i));
         }
         System.out.print("\n\n");
     }

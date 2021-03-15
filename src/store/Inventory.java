@@ -32,8 +32,8 @@ public class Inventory {
 
         if (products !=null && quantities !=null && products.length == quantities.length) {
             for (int i=0; i<products.length; i++){
-                productQuantity.put(products[i].getId(), quantities[i]);
-                productInfo.put(products[i].getId(), products[i]);
+                productQuantity.put(products[i].getID(), quantities[i]);
+                productInfo.put(products[i].getID(), products[i]);
             }
         }
     }
@@ -73,10 +73,10 @@ public class Inventory {
      * @param amount    int, Amount of stock to add
      */
     public void addStock(Product myProduct, int amount) {
-        if (productQuantity.get(myProduct.getId()) == null) { //product does not already exist
-            productInfo.put(myProduct.getId(), myProduct);
+        if (productQuantity.get(myProduct.getID()) == null) { //product does not already exist
+            productInfo.put(myProduct.getID(), myProduct);
         }
-        productQuantity.put(myProduct.getId(), productQuantity.getOrDefault(myProduct.getId(), 0) + amount); //add amount
+        productQuantity.put(myProduct.getID(), productQuantity.getOrDefault(myProduct.getID(), 0) + amount); //add amount
     }
 
     /**

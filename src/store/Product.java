@@ -9,43 +9,43 @@ import java.util.Objects;
  * @version 1.1
  */
 public class Product {
-    private final String name;
-    private final int id;
+    private final String NAME;
+    private final int ID;
     private final double price;
 
     /**
      * Constructor for a store.Product
-     * @param name String, name of the product
-     * @param id int, store.Product id
-     * @param price double, store.Product Price
+     * @param NAME String, name of the product
+     * @param ID int, store.Product id
+     * @param PRICE double, store.Product Price
      */
-    public Product(String name, int id, double price) {
-        this.name = name;
-        this.id = id;
-        this.price = price;
+    public Product(String NAME, int ID, double PRICE) {
+        this.NAME = NAME;
+        this.ID = ID;
+        this.price = PRICE;
     }
 
     /**
      *
      * @return String, Returns store.Product name
      */
-    public String getName() {
-        return name;
+    public String getNAME() {
+        return NAME;
     }
 
     /**
      *
      * @return int, Returns store.Product id
      */
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
     /**
      *
      * @return double, Returns store.Product price
      */
-    public double getPrice() {
+    public double getPRICE() {
         return price;
     }
 
@@ -59,7 +59,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id && Double.compare(product.price, price) == 0 && name.equals(product.name);
+        return ID == product.ID && Double.compare(product.price, price) == 0 && NAME.equals(product.NAME);
     }
 
     /**
@@ -68,6 +68,6 @@ public class Product {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, id, price);
+        return Objects.hash(NAME, ID, price);
     }
 }

@@ -44,7 +44,7 @@ public class ShoppingCart {
      */
     public void addItemToCart(Product myProduct, int amount) {
         userCart.addStock(myProduct, amount);
-        totalPrice += myProduct.getPrice() * amount;
+        totalPrice += myProduct.getPRICE() * amount;
     }
 
     /**
@@ -55,7 +55,7 @@ public class ShoppingCart {
      */
     public void removeItemFromCart(int id, int amount) {
         if (userCart.getInfo(id) != null) {
-            totalPrice -= userCart.getInfo(id).getPrice() * amount;
+            totalPrice -= userCart.getInfo(id).getPRICE() * amount;
             userCart.removeStock(id, amount, true);
         }
     }
@@ -70,7 +70,7 @@ public class ShoppingCart {
         System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
 
         for (int i : userCart.getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, userCart.getInfo(i).getName(), userCart.getInfo(i).getPrice(), userCart.getStock(i));
+            System.out.printf("%d | %s | %f | %d\n", i, userCart.getInfo(i).getNAME(), userCart.getInfo(i).getPRICE(), userCart.getStock(i));
         }
         System.out.print("\n\n");
     }
