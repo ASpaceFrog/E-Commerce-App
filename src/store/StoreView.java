@@ -108,15 +108,15 @@ public class StoreView {
 
         while (!exit) {
             System.out.println("Please select a command:");
-            System.out.println("1: Select an existing store.StoreView");
-            System.out.println("2: Create a new store.StoreView");
+            System.out.println("1: Select an existing StoreView");
+            System.out.println("2: Create a new StoreView");
             System.out.println("-1: Exit \n");
 
 
             i = UserInput.getIntInput(-1, 2);
 
             if (i == 1) { //choose existing
-                System.out.println("Please select a store.StoreView or choose -1 to exit.");
+                System.out.println("Please select a StoreView or choose -1 to exit.");
                 System.out.println("Existing Store Views:");
                 UserInput.printArray(storeViews);
                 System.out.print("\n");
@@ -135,17 +135,17 @@ public class StoreView {
                             case "viewCart" -> storeViews.get(i).viewCart();
                             case "add" -> {
                                 storeViews.get(i).browse();
-                                System.out.println("Please enter the id of the store.Product you wish to add to your cart.");
+                                System.out.println("Please enter the id of the Product you wish to add to your cart.");
                                 id = UserInput.getIntInput();
-                                System.out.println("Please enter the amount of the store.Product you wish to add to your cart.");
+                                System.out.println("Please enter the amount of the Product you wish to add to your cart.");
                                 amount = UserInput.getIntInput();
                                 storeViews.get(i).addToUser(id, amount);
                             }
                             case "remove" -> {
                                 storeViews.get(i).viewCart();
-                                System.out.println("Please enter the id of the store.Product you wish to remove from your cart.");
+                                System.out.println("Please enter the id of the Product you wish to remove from your cart.");
                                 id = UserInput.getIntInput();
-                                System.out.println("Please enter the amount of the store.Product you wish to remove from your cart.");
+                                System.out.println("Please enter the amount of the Product you wish to remove from your cart.");
                                 amount = UserInput.getIntInput();
                                 storeViews.get(i).removeFromUser(id, amount);
                             }
@@ -159,7 +159,7 @@ public class StoreView {
 
             } else if (i == 2) { //add new
                 storeViews.add(new StoreView(sm, sm.newShoppingCart()));
-                System.out.println("New store.StoreView Created. \n");
+                System.out.println("New StoreView Created. \n");
             } else {
                 exit = true;
             }
