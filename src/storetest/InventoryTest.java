@@ -2,21 +2,25 @@ package storetest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import store.Inventory;
-import store.Product;
-
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import store.Inventory;
+import store.Product;
+import java.util.HashMap;
+
+/**
+ * Test Class for Inventory
+ *
+ * @author Stefan Lukic - 101156711
+ */
 class InventoryTest {
-    Product p1;
-    Product p2;
-    Product[] products;
-    int[] quantities;
+    private static Product p1;
+    private static Product p2;
+    private static Product[] products;
+    private static int[] quantities;
 
     @BeforeEach
-    void init() {
+    public void init() {
         p1 = new Product("book", 0, 10);
         p2 = new Product("coffee", 3, 500);
         products = new Product[]{p1, p2};
@@ -24,7 +28,7 @@ class InventoryTest {
     }
 
     @Test
-    void getProductQuantity() {
+    public void getProductQuantity() {
         HashMap<Integer, Integer> h1 = new HashMap<>();
         Inventory inv = new Inventory(products, quantities);
 
@@ -35,7 +39,7 @@ class InventoryTest {
     }
 
     @Test
-    void getProductInfo() {
+    public void getProductInfo() {
         HashMap<Integer, Product> h2 = new HashMap<>();
         Inventory inv = new Inventory(products, quantities);
 
@@ -46,7 +50,7 @@ class InventoryTest {
     }
 
     @Test
-    void getStock() {
+    public void getStock() {
         Inventory inv = new Inventory(products, quantities);
 
         assertEquals(15, inv.getStock(0));
@@ -55,7 +59,7 @@ class InventoryTest {
     }
 
     @Test
-    void addStock() {
+    public void addStock() {
         Inventory inv = new Inventory();
         inv.addStock(p1, 15);
         inv.addStock(p2, 100);
@@ -66,7 +70,7 @@ class InventoryTest {
     }
 
     @Test
-    void removeStock() {
+    public void removeStock() {
         Inventory inv = new Inventory(products, quantities);
 
         inv.removeStock(0, 3, false);
@@ -83,7 +87,7 @@ class InventoryTest {
     }
 
     @Test
-    void removeProduct() {
+    public void removeProduct() {
         Inventory inv = new Inventory(products, quantities);
 
         inv.removeProduct(-42);
@@ -93,7 +97,7 @@ class InventoryTest {
     }
 
     @Test
-    void getInfo() {
+    public void getInfo() {
         Inventory inv = new Inventory(products, quantities);
 
         assertNull(inv.getInfo(-42));
