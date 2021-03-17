@@ -41,7 +41,7 @@ class InventoryTest {
         h1.put(0, 15);
         h1.put(3, 100);
 
-        assertEquals(h1, inv.getProductQuantity());
+        assertEquals(h1, inv.getProductQuantity(), "inv constructor or inv.getProductQuantity() is not working!");
     }
 
     @Test
@@ -51,14 +51,14 @@ class InventoryTest {
         h2.put(0, p1);
         h2.put(3, p2);
 
-        assertEquals(h2, inv.getProductInfo());
+        assertEquals(h2, inv.getProductInfo(), "inv constructor or inv.getProductInfo() is not working!");
     }
 
     @Test
     public void getStock() {
-        assertEquals(15, inv.getStock(0));
-        assertEquals(100, inv.getStock(3));
-        assertEquals(-1, inv.getStock(2));
+        assertEquals(15, inv.getStock(0), "inv.getStock is not returning the correct value!");
+        assertEquals(100, inv.getStock(3), "inv.getStock is not returning the correct value!");
+        assertEquals(-1, inv.getStock(2), "inv.getStock is not returning the correct value!");
     }
 
     @Test
@@ -67,37 +67,36 @@ class InventoryTest {
         inv2.addStock(p1, 15);
         inv2.addStock(p2, 100);
 
-        assertEquals(15, inv2.getStock(0));
-        assertEquals(100, inv2.getStock(3));
-        assertEquals(-1, inv2.getStock(2));
+        assertEquals(15, inv2.getStock(0), "inv.addStock() is not adding the correct amount of stock!");
+        assertEquals(100, inv2.getStock(3), "inv.addStock() is not adding the correct amount of stock!!");
     }
 
     @Test
     public void removeStock() {
         inv.removeStock(0, 3, false);
-        assertEquals(12, inv.getStock(0));
+        assertEquals(12, inv.getStock(0), "inv.removeStock() is not removing the correct amount of stock!");
 
         inv.removeStock(0, 3, true);
-        assertEquals(9, inv.getStock(0));
+        assertEquals(9, inv.getStock(0), "inv.removeStock() is not removing the correct amount of stock!");
 
         inv.removeStock(0, 9, true);
-        assertEquals(-1, inv.getStock(0));
+        assertEquals(-1, inv.getStock(0), "inv.removeStock() is not removing products when it should be!");
 
         inv.removeStock(3, 999, false);
-        assertEquals(0, inv.getStock(3));
+        assertEquals(0, inv.getStock(3), "inv.removeStock() is removing products when it should not be doing so!");
     }
 
     @Test
     public void removeProduct() {
-        inv.removeProduct(-42);
+        inv.removeProduct(-42); //this should not crash the program
 
         inv.removeProduct(0);
-        assertEquals(-1, inv.getStock(0));
+        assertEquals(-1, inv.getStock(0), "inv.removeProduct() is not removing products or is returning the wrong value!");
     }
 
     @Test
     public void getInfo() {
-        assertNull(inv.getInfo(-42));
-        assertEquals(p1, inv.getInfo(0));
+        assertNull(inv.getInfo(-42), "inv.getInfo() is not working!");
+        assertEquals(p1, inv.getInfo(0), "inv.getInfo() is not working!");
     }
 }
