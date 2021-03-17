@@ -10,7 +10,6 @@ import store.Product;
 import store.ShoppingCart;
 import store.StoreManager;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,15 +21,15 @@ import java.util.HashMap;
  */
 class StoreManagerTest{
 
-    StoreManager sm;
+    private static StoreManager sm;
 
     @BeforeEach
-    void init(){
+    public void init(){
         sm = new StoreManager();
     }
 
     @Test
-    void testGetMyInventory() {
+    public void testGetMyInventory() {
         new StoreManager();
 
         Product p1 = new Product("apple", 1, 2.00); // Same arguments as the Product in StoreManager
@@ -49,56 +48,56 @@ class StoreManagerTest{
         pQuantity.put(2 , 5);
         pInfo.put(2 , p2);
 
-        assertEquals(pQuantity, sm.getMyInventory().getProductQuantity());
-        assertEquals(pInfo, sm.getMyInventory().getProductInfo());
+        assertEquals(pQuantity, sm.getMyInventory().getProductQuantity(), "Field init in StoreManager is not working");
+        assertEquals(pInfo, sm.getMyInventory().getProductInfo(), "Field init in StoreManager is not working");
     }
 
     @Test
-    void testGetUserCarts() {
+    public void testGetUserCarts() {
         ArrayList<ShoppingCart> uc = new ArrayList<>();
-        assertEquals(uc, sm.getUserCarts());
+        assertEquals(uc, sm.getUserCarts(), "Getter not working properly");
     }
 
     @Test
-    void testCheckStock() {
+    public void testCheckStock() {
         Product p1 = new Product("apple", 1, 2.00); // Same arguments as the Product in StoreManager
         Product p2 = new Product("orange",2,2.5); // Same arguments as the Product in StoreManager
         Product p3 = new Product("banana", 3, 1.99); // Product not in StoreManager
 
-        assertEquals(10, sm.checkStock(p1));
-        assertEquals(5, sm.checkStock(p2));
-        assertEquals(-1, sm.checkStock(p3));
+        assertEquals(10, sm.checkStock(p1), "Field init in StoreManager is not working");
+        assertEquals(5, sm.checkStock(p2), "Field init in StoreManager is not working");
+        assertEquals(-1, sm.checkStock(p3), "Field init in StoreManager is not working");
     }
 
     @Test
-    void testNewShoppingCart() {
-        assertEquals(0, sm.newShoppingCart()); // First ShoppingCart will have id 0
-        assertEquals(1, sm.newShoppingCart()); // Next ShoppingCart will have id 1
+    public void testNewShoppingCart() {
+        assertEquals(0, sm.newShoppingCart(), "newShoppingCart not working"); // First ShoppingCart will have id 0
+        assertEquals(1, sm.newShoppingCart(), "newShoppingCart not working"); // Next ShoppingCart will have id 1
     }
 
     @Test
-    void testAddToCart() {
+    public void testAddToCart() {
         sm.newShoppingCart(); // Create new cart, id will be 0
 
-        assertTrue(sm.addToCart(0, 1, 1)); // Product created by StoreManager
-        assertFalse(sm.addToCart(0, 5, 5));
+        assertTrue(sm.addToCart(0, 1, 1), "Field init in StoreManager is not working or addToCart is not working"); // Product created by StoreManager
+        assertFalse(sm.addToCart(0, 5, 5), "Field init in StoreManager is not working or addToCart is not working");
     }
 
     @Test
-    void testRemoveFromCart() {
+    public void testRemoveFromCart() {
         sm.newShoppingCart();  // Create new cart, id will be 0
 
         sm.addToCart(0, 1, 1);
         sm.addToCart(0, 2, 3);
 
-        assertTrue(sm.removeFromCart(0, 1 , 1));
-        assertFalse(sm.removeFromCart(0, 1, 1));
-        assertTrue(sm.removeFromCart(0, 2, 2));
+        assertTrue(sm.removeFromCart(0, 1 , 1), "removeFromCart is not working or addToCart is not working");
+        assertFalse(sm.removeFromCart(0, 1, 1), "removeFromCart is not working or addToCart is not working");
+        assertTrue(sm.removeFromCart(0, 2, 2), "removeFromCart is not working or addToCart is not working");
 
     }
 
     @Test
-    void testEmptyCart() {
+    public void testEmptyCart() {
         sm.newShoppingCart();  // Create new cart, id will be 0
 
         sm.addToCart(0, 1, 1);
@@ -112,7 +111,7 @@ class StoreManagerTest{
         HashMap<Integer, Integer> pQuantity = new HashMap<>(); // Empty HashMap
         HashMap<Integer, Product> pInfo = new HashMap<>(); // Empty HashMap
 
-        assertEquals(pQuantity, sm.getUserCarts().get(0).getUserCart().getProductQuantity());
-        assertEquals(pInfo, sm.getUserCarts().get(0).getUserCart().getProductInfo());
+        assertEquals(pQuantity, sm.getUserCarts().get(0).getUserCart().getProductQuantity(), "Field init in StoreManager is not working or emptyCrt is not working");
+        assertEquals(pInfo, sm.getUserCarts().get(0).getUserCart().getProductInfo(), "Field init in StoreManager is not working or emptyCrt is not working");
     }
 }
