@@ -35,7 +35,7 @@ class InventoryTest {
     }
 
     @Test
-    public void getProductQuantity() {
+    public void TestGetProductQuantity() {
         HashMap<Integer, Integer> h1 = new HashMap<>();
 
         h1.put(0, 15);
@@ -45,7 +45,7 @@ class InventoryTest {
     }
 
     @Test
-    public void getProductInfo() {
+    public void TestGetProductInfo() {
         HashMap<Integer, Product> h2 = new HashMap<>();
 
         h2.put(0, p1);
@@ -55,14 +55,14 @@ class InventoryTest {
     }
 
     @Test
-    public void getStock() {
+    public void TestGetStock() {
         assertEquals(15, inv.getStock(0), "inv.getStock is not returning the correct value!");
         assertEquals(100, inv.getStock(3), "inv.getStock is not returning the correct value!");
         assertEquals(-1, inv.getStock(2), "inv.getStock is not returning the correct value!");
     }
 
     @Test
-    public void addStock() {
+    public void TestAStock() {
         Inventory inv2 = new Inventory();
         inv2.addStock(p1, 15);
         inv2.addStock(p2, 100);
@@ -72,7 +72,7 @@ class InventoryTest {
     }
 
     @Test
-    public void removeStock() {
+    public void TestRemoveStock() {
         inv.removeStock(0, 3, false);
         assertEquals(12, inv.getStock(0), "inv.removeStock() is not removing the correct amount of stock!");
 
@@ -87,7 +87,7 @@ class InventoryTest {
     }
 
     @Test
-    public void removeProduct() {
+    public void TestRemoveProduct() {
         inv.removeProduct(-42); //this should not crash the program
 
         inv.removeProduct(0);
@@ -95,7 +95,7 @@ class InventoryTest {
     }
 
     @Test
-    public void getInfo() {
+    public void TestGetInfo() {
         assertNull(inv.getInfo(-42), "inv.getInfo() is not working!");
         assertEquals(p1, inv.getInfo(0), "inv.getInfo() is not working!");
     }
