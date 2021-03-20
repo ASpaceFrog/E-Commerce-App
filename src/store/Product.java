@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Product {
     private final String NAME;
     private final int ID;
-    private final double price;
+    private final double PRICE;
 
     /**
      * Constructor for a store.Product
@@ -22,7 +22,7 @@ public class Product {
     public Product(String NAME, int ID, double PRICE) {
         this.NAME = NAME;
         this.ID = ID;
-        this.price = PRICE;
+        this.PRICE = PRICE;
     }
 
     /**
@@ -46,7 +46,7 @@ public class Product {
      * @return double, Returns store.Product price
      */
     public double getPRICE() {
-        return price;
+        return PRICE;
     }
 
     /**
@@ -59,7 +59,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return ID == product.ID && Double.compare(product.price, price) == 0 && NAME.equals(product.NAME);
+        return ID == product.ID && Double.compare(product.PRICE, PRICE) == 0 && NAME.equals(product.NAME);
     }
 
     /**
@@ -68,6 +68,6 @@ public class Product {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(NAME, ID, price);
+        return Objects.hash(NAME, ID, PRICE);
     }
 }
