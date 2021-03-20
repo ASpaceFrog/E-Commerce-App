@@ -62,7 +62,7 @@ class InventoryTest {
     }
 
     @Test
-    public void TestAStock() {
+    public void TestAddStock() {
         Inventory inv2 = new Inventory();
         inv2.addStock(p1, 15);
         inv2.addStock(p2, 100);
