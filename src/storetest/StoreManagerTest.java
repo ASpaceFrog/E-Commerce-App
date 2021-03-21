@@ -16,7 +16,7 @@ import java.util.HashMap;
 /**
  * Class used to test StoreManager Class
  *
- * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
+ * @author Filip Lukic - 101156713
  * @version 1.0
  */
 class StoreManagerTest{
