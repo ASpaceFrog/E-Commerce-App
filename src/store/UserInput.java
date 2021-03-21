@@ -14,7 +14,7 @@ public class UserInput {
 
     /**
      * Get an integer input from a user.
-     * Checks is min <= i <= max
+     * Checks if min <= i <= max
      *
      * @param max int, Max value
      * @param min int, Min value
