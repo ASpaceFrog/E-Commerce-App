@@ -1,4 +1,7 @@
+package store;
+
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Manages a Store's inventory. Allows transactions for products to be made.
@@ -7,14 +10,14 @@ import java.util.ArrayList;
  * @version 1.1
  */
 public class StoreManager {
-    //init Inventory to some default values
+    //init store.Inventory to some default values
     private Inventory myInventory = new Inventory(new Product[]{new Product("apple", 1, 2.00), new Product("orange",2,2.5)}, new int[]{10,5});
     private ArrayList<ShoppingCart> userCarts = new ArrayList<>();
 
     /**
      * Get the store's inventory
      *
-     * @return Inventory, store's inventory
+     * @return store.Inventory, store's inventory
      */
     public Inventory getMyInventory() {
         return myInventory;
@@ -22,20 +25,20 @@ public class StoreManager {
 
     /**
      *
-     * @return ArrayList<ShoppingCart>, ArrayList of userCarts
+     * @return ArrayList<store.ShoppingCart>, ArrayList of userCarts
      */
     public ArrayList<ShoppingCart> getUserCarts() {
         return userCarts;
     }
 
     /**
-     * Check how much stock of a given Product is in the Inventory
+     * Check how much stock of a given store.Product is in the store.Inventory
      *
-     * @param myProduct Product, Product to check
+     * @param myProduct store.Product, store.Product to check
      * @return int, Returns amount of stock for given product. If product does not exist in inventory, returns -1.
      */
     public int checkStock(Product myProduct) {
-        return myInventory.getStock(myProduct.getId());
+        return myInventory.getStock(myProduct.getID());
     }
 
     /**
@@ -53,7 +56,7 @@ public class StoreManager {
      * Removes stock from Store inventory and transfers stock to cart inventory
      *
      * @param cartID int, Cart ID of the desired cart
-     * @param productID int, Product ID of product to be added
+     * @param productID int, store.Product ID of product to be added
      * @param quantity int, amount of stock to add to the cart
      * @return return true if valid product ID's and stock levels are passed,
      *         else return false
@@ -73,7 +76,7 @@ public class StoreManager {
      * Removes stock from cart inventory and transfers stock to store inventory
      *
      * @param cartID int, Cart ID of the desired cart
-     * @param productID int, Product ID of product to be removed
+     * @param productID int, store.Product ID of product to be removed
      * @param quantity int, amount of removed from the cart
      * @return return true if valid product ID's and stock levels are passed,
      *         else return false
@@ -96,7 +99,11 @@ public class StoreManager {
      */
     public void emptyCart(int cartID) {
         int amount;
-        for (int i : userCarts.get(cartID).getUserCart().getProductQuantity().keySet()) {
+        Set<Integer> hashSet = userCarts.get(cartID).getUserCart().getProductQuantity().keySet();
+        Integer[] keys = new Integer[hashSet.size()];
+        hashSet.toArray(keys);
+
+        for (int i : keys) {
             amount = userCarts.get(cartID).getUserCart().getStock(i);
             removeFromCart(cartID, i, amount); //removes stock and returns to inv
         }
@@ -129,7 +136,7 @@ public class StoreManager {
     }
 
     /**
-     * Display the Store's Inventory
+     * Display the Store's store.Inventory
      */
     public void printInventory() {
         System.out.println("|--------------------THE COURSE STORE--------------------|");
@@ -138,7 +145,7 @@ public class StoreManager {
         System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
 
         for (int i : myInventory.getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getName(), myInventory.getInfo(i).getPrice(), myInventory.getStock(i));
+            System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getNAME(), myInventory.getInfo(i).getPRICE(), myInventory.getStock(i));
         }
         System.out.print("\n\n");
     }

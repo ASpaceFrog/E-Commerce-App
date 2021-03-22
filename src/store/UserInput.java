@@ -1,3 +1,5 @@
+package store;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public class UserInput {
 
     /**
      * Get an integer input from a user.
-     * Checks is min <= i <= max
+     * Checks if min <= i <= max
      *
      * @param max int, Max value
      * @param min int, Min value
@@ -71,7 +73,7 @@ public class UserInput {
     }
 
     /**
-     * Get user to chose from an array of strings
+     * Get user to choose from an array of strings
      *
      * @param strings String[], array containing valid user inputs
      * @return String, returns user inputted String
@@ -122,9 +124,9 @@ public class UserInput {
     }
 
     /**
-     * Prints an array with each element on its own line
+     * Prints an ArrayList of StoreViews with each element on its own line
      *
-     * @param sv Integer[], StoreView array to be printed
+     * @param sv Integer[], store.StoreView array to be printed
      */
     public static void printArray(ArrayList<StoreView> sv) {
         for (StoreView storeView : sv) {

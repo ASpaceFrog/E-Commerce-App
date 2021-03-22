@@ -1,3 +1,5 @@
+package store;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -45,9 +47,9 @@ public class StoreView {
     }
 
     /**
-     * Add a Product to the User's cart
+     * Add a store.Product to the User's cart
      *
-     * @param id int, Product id
+     * @param id int, store.Product id
      * @param amount int, amount to add to user
      */
     public void addToUser(int id, int amount) {
@@ -57,9 +59,9 @@ public class StoreView {
     }
 
     /**
-     * Remove a Product from the user'sCart
+     * Remove a store.Product from the user'sCart
      *
-     * @param id int, Product id
+     * @param id int, store.Product id
      * @param amount int, amount to remove from user
      */
     public void removeFromUser(int id, int amount) {
@@ -102,7 +104,7 @@ public class StoreView {
         String s;
 
 
-        storeViews.add(new StoreView(sm, sm.newShoppingCart())); //add one existing StoreView
+        storeViews.add(new StoreView(sm, sm.newShoppingCart())); //add one existing store.StoreView
 
         while (!exit) {
             System.out.println("Please select a command:");
