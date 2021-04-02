@@ -50,7 +50,7 @@ class InventoryTest {
     public void TestGetIDs() {
         Integer[] ids = new Integer[]{p1.getID(), p2.getID()};
 
-        assertEquals(ids, inv.getIDs(), "inv constructor or inv.getProductQuantity() is not working!");
+        assertArrayEquals(ids, inv.getIDs(), "inv constructor or inv.getProductQuantity() is not working!");
     }
 
     /**
@@ -61,7 +61,7 @@ class InventoryTest {
         Inventory inv2 = new Inventory();
         inv.clearInventory();
 
-        assertEquals(inv2, inv, "inv constructor or clearInventory is not working!");
+        assertArrayEquals(inv2.getIDs(), inv.getIDs(), "inv constructor or clearInventory is not working!");
     }
 
     /**
