@@ -44,10 +44,7 @@ public class StoreView {
     }
 
     /**
-     * Display the PaletteGenerator GUI
-     */
-    /**
-     * Display the PaletteGenerator GUI
+     * Display the GUI
      */
     public static void displayGUI() {
         frame.setSize(500, 150);
@@ -151,13 +148,23 @@ public class StoreView {
     }
 
     private JPanel createWelcomePanel(){
-        JPanel welcomePanel = new JPanel(new FlowLayout());
+        JPanel welcomePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
         JLabel welcome1 = new JLabel("Welcome to the meme store!");
+        welcome1.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel welcome2 = new JLabel("We offer the best prices on the spiciest memes available on the market.");
+        welcome2.setHorizontalAlignment(SwingConstants.CENTER);
 
-        welcomePanel.add(welcome1);
-        welcomePanel.add(welcome2);
+
+        c.gridx=0;
+        c.gridy=0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        welcomePanel.add(welcome1, c);
+
+        c.gridy=1;
+        welcomePanel.add(welcome2, c);
 
         JButton enter = new JButton("Enter the Store");
         enter.addActionListener(new ActionListener() {
@@ -166,7 +173,8 @@ public class StoreView {
                 card.show(mainPanel, COMMANDPANELSTRING); //goto commands
             }
         });
-        welcomePanel.add(enter);
+        c.gridy=2;
+        welcomePanel.add(enter, c);
 
         return welcomePanel;
     }
