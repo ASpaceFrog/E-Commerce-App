@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class StoreView {
     private StoreManager myStoreManager;
     private int cartID;
-    private static ArrayList<StoreView> storeViews = new ArrayList<>();
 
 
     private static JFrame frame;
@@ -27,7 +26,6 @@ public class StoreView {
     private static CardLayout card = new CardLayout();
 
     private static final String WELCOMEPANELSTRING = "welcomePanel";
-    private static final String SELECTSVSTRING = "selectSV";
     private static final String COMMANDPANELSTRING = "commandPanel";
     private static final String CARTPANELSTRING = "cartPanel";
     private static final String STOREPANELSTRING = "storePanel";
@@ -52,7 +50,7 @@ public class StoreView {
      * Display the PaletteGenerator GUI
      */
     public static void displayGUI() {
-        frame.setSize(400, 600);
+        frame.setSize(500, 150);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -139,9 +137,7 @@ public class StoreView {
     }
 
     private void createPanels(){
-
         JPanel welcomePanel = createWelcomePanel();
-        JPanel selectSV = createSelectSv();
 
         JPanel commandPanel = new JPanel();
 
@@ -155,55 +151,26 @@ public class StoreView {
     }
 
     private JPanel createWelcomePanel(){
-        JPanel welcomePanel = new JPanel();
+        JPanel welcomePanel = new JPanel(new FlowLayout());
 
-        JButton selectSv = new JButton("Select a store view");
-        selectSv.addActionListener(new ActionListener() {
+        JLabel welcome1 = new JLabel("Welcome to the meme store!");
+        JLabel welcome2 = new JLabel("We offer the best prices on the spiciest memes available on the market.");
+
+        welcomePanel.add(welcome1);
+        welcomePanel.add(welcome2);
+
+        JButton enter = new JButton("Enter the Store");
+        enter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                card.show(mainPanel, SELECTSVSTRING);
+                card.show(mainPanel, COMMANDPANELSTRING); //goto commands
             }
         });
-
-        JButton newSV = new JButton("Create a new store view");
-        newSV.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                storeViews.add(new StoreView(myStoreManager, myStoreManager.newShoppingCart()));
-            }
-        });
-        welcomePanel.add(selectSv);
-        welcomePanel.add(newSV);
-
+        welcomePanel.add(enter);
 
         return welcomePanel;
     }
 
-    private JPanel createSelectSv(){
-        JPanel selectSV = new JPanel();
-        for (int i=0; i<storeViews.size(); i++){
-            selectSV.add(createSvButtons(i));
-        }
-
-        return selectSV;
-    }
-
-    private JButton createSvButtons(int i){
-        JButton jb = new JButton();
-        jb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        return jb;
-    }
-
-//    System.out.println("Please select a StoreView or choose -1 to exit.");
-//    System.out.println("Existing Store Views:");
-//    UserInput.printArray(storeViews);
-//    System.out.print("\n");
-//    i = UserInput.getIntInput(-1, storeViews.size() - 1);
 
     /**
      * Main Method for program execution
@@ -211,16 +178,12 @@ public class StoreView {
      */
     public static void main(String[] args) {
         StoreManager sm = new StoreManager();
-        Scanner sc = new Scanner(System.in);
-        boolean exit = false;
-        boolean exitCart;
-        int i, id, amount;
-        String s;
+        StoreView sv = new StoreView(sm, sm.newShoppingCart()); //add one existing store.StoreView
 
-        storeViews.add(new StoreView(sm, sm.newShoppingCart())); //add one existing store.StoreView
         displayGUI();
     }
 
+    /*
     public static void main2(String[] args) {
         StoreManager sm = new StoreManager();
         Scanner sc = new Scanner(System.in);
@@ -292,5 +255,6 @@ public class StoreView {
         }
 
     }
+    */
 
 }
