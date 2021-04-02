@@ -1,6 +1,7 @@
 package store;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * A store's inventory
@@ -39,22 +40,40 @@ public class Inventory {
     }
 
     /**
-     * Get method for productQuantity HashMap
-     *
-     * @return HashMap<Integer, Integer>, hashmap mapping id to quantities
+     * Empty the inventory
      */
-    public HashMap<Integer, Integer> getProductQuantity() {
-        return productQuantity;
+    public void clearInventory(){
+        productQuantity.clear();
+        productInfo.clear();
     }
 
     /**
-     * Get method for productInfo HashMap
-     *
-     * @return HashMap<Integer, Products>, hashmap mapping id to Products
+     * Get an array of all product ids
+     * @return Integer[], array containing all product ID's
      */
-    public HashMap<Integer, Product> getProductInfo() {
-        return productInfo;
+    public Integer[] getIDs(){
+        Set<Integer> hashSet = productQuantity.keySet();
+        Integer[] keys = new Integer[hashSet.size()];
+        hashSet.toArray(keys);
+
+        return keys;
     }
+
+    /**
+     * Display the Store's store.Inventory
+     */
+    public void printInventory() {
+        System.out.println("|--------------------THE COURSE STORE--------------------|");
+        System.out.println("\\------------------------------------------------------- /");
+        System.out.println("Type 'help' for a list of commands.\n");
+        System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
+
+        for (int i : productQuantity.keySet()) {
+            System.out.printf("%d | %s | %f | %d\n", i, getInfo(i).getNAME(), getInfo(i).getPRICE(), getStock(i));
+        }
+        System.out.print("\n\n");
+    }
+
 
     /**
      * Get stock of given product id

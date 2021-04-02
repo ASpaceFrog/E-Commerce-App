@@ -47,26 +47,21 @@ class InventoryTest {
      * Test getProductQuantity by comparing it with an equivalent hashmap
      */
     @Test
-    public void TestGetProductQuantity() {
-        HashMap<Integer, Integer> h1 = new HashMap<>();
+    public void TestGetIDs() {
+        Integer[] ids = new Integer[]{p1.getID(), p2.getID()};
 
-        h1.put(0, 15);
-        h1.put(3, 100);
-
-        assertEquals(h1, inv.getProductQuantity(), "inv constructor or inv.getProductQuantity() is not working!");
+        assertEquals(ids, inv.getIDs(), "inv constructor or inv.getProductQuantity() is not working!");
     }
 
     /**
-     * Test getProductInfo by comparing it with an equivalent hashmap
+     * Test clear Inventory bt comparing with an empty inv
      */
     @Test
-    public void TestGetProductInfo() {
-        HashMap<Integer, Product> h2 = new HashMap<>();
+    public void TestClearInventory(){
+        Inventory inv2 = new Inventory();
+        inv.clearInventory();
 
-        h2.put(0, p1);
-        h2.put(3, p2);
-
-        assertEquals(h2, inv.getProductInfo(), "inv constructor or inv.getProductInfo() is not working!");
+        assertEquals(inv2, inv, "inv constructor or clearInventory is not working!");
     }
 
     /**

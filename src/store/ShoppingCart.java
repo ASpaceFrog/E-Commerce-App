@@ -64,14 +64,13 @@ public class ShoppingCart {
      * Print the User's cart
      */
     public void printCartInventory() {
-        System.out.println("|--------------------------CART--------------------------|");
-        System.out.println("\\------------------------------------------------------- /");
-        System.out.println("Type 'help' for a list of commands.\n");
-        System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
+        userCart.printInventory();
+    }
 
-        for (int i : userCart.getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, userCart.getInfo(i).getNAME(), userCart.getInfo(i).getPRICE(), userCart.getStock(i));
-        }
-        System.out.print("\n\n");
+    /**
+     * Clear the carts inventory
+     */
+    public void clearCart(){
+        userCart.clearInventory();
     }
 }

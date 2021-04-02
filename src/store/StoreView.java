@@ -17,18 +17,19 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class StoreView {
-    private StoreManager myStoreManager;
-    private int cartID;
-
-
-    private static JFrame frame;
-    private static JPanel mainPanel;
-    private static CardLayout card = new CardLayout();
-
     private static final String WELCOMEPANELSTRING = "welcomePanel";
     private static final String COMMANDPANELSTRING = "commandPanel";
     private static final String CARTPANELSTRING = "cartPanel";
     private static final String STOREPANELSTRING = "storePanel";
+    /**
+     * Available commands for user to input when connected to a store
+     */
+    private static final String[] COMMANDS = {"browse", "viewCart", "add", "remove", "checkout", "help"};
+    private static JFrame frame;
+    private static JPanel mainPanel;
+    private static CardLayout card = new CardLayout();
+    private StoreManager myStoreManager;
+    private int cartID;
 
     public StoreView(StoreManager myStoreManager, int cartID) {
         this.myStoreManager = myStoreManager;
@@ -63,12 +64,31 @@ public class StoreView {
     }
 
     /**
-     * Available commands for user to input when connected to a store
+     * Print available commands for UI
      */
-    private static final String[] COMMANDS = {"browse", "viewCart", "add", "remove", "checkout", "help"};
+    public static void help() {
+        System.out.print("Valid Commands: ");
+        for (int i = 0; i < COMMANDS.length - 1; i++) {
+            System.out.print(COMMANDS[i] + ", ");
+        }
+        System.out.println(COMMANDS[COMMANDS.length - 1]);
+    }
+
+    /**
+     * Main Method for program execution
+     *
+     * @param args Unused: no parameters utilized in this version
+     */
+    public static void main(String[] args) {
+        StoreManager sm = new StoreManager();
+        StoreView sv = new StoreView(sm, sm.newShoppingCart()); //add one existing store.StoreView
+
+        displayGUI();
+    }
 
     /**
      * Override default to string method to return cart id
+     *
      * @return String, cartID
      */
     public String toString() {
@@ -79,7 +99,7 @@ public class StoreView {
      * Display's the Store's inventory
      */
     public void browse() {
-        myStoreManager.printInventory();
+        myStoreManager.getMyInventory().printInventory();
     }
 
     /**
@@ -92,7 +112,7 @@ public class StoreView {
     /**
      * Add a store.Product to the User's cart
      *
-     * @param id int, store.Product id
+     * @param id     int, store.Product id
      * @param amount int, amount to add to user
      */
     public void addToUser(int id, int amount) {
@@ -104,7 +124,7 @@ public class StoreView {
     /**
      * Remove a store.Product from the user'sCart
      *
-     * @param id int, store.Product id
+     * @param id     int, store.Product id
      * @param amount int, amount to remove from user
      */
     public void removeFromUser(int id, int amount) {
@@ -122,32 +142,22 @@ public class StoreView {
         return myStoreManager.processTransaction(cartID);
     }
 
-    /**
-     * Print available commands for UI
-     */
-    public static void help() {
-        System.out.print("Valid Commands: ");
-        for (int i = 0; i < COMMANDS.length - 1; i++) {
-            System.out.print(COMMANDS[i] + ", ");
-        }
-        System.out.println(COMMANDS[COMMANDS.length - 1]);
-    }
-
-    private void createPanels(){
+    private void createPanels() {
         JPanel welcomePanel = createWelcomePanel();
 
-        JPanel commandPanel = new JPanel();
-
-        JPanel cartPanel = new JPanel();
+        JPanel commandPanel = createCommandPanel();
 
         JPanel storePanel = new JPanel();
+
+        JPanel cartPanel = new JPanel();
 
 
         /* Add Panels to mainPanel */
         mainPanel.add(welcomePanel, WELCOMEPANELSTRING);
+        mainPanel.add(commandPanel, COMMANDPANELSTRING);
     }
 
-    private JPanel createWelcomePanel(){
+    private JPanel createWelcomePanel() {
         JPanel welcomePanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
@@ -156,14 +166,14 @@ public class StoreView {
         JLabel welcome2 = new JLabel("We offer the best prices on the spiciest memes available on the market.");
         welcome2.setHorizontalAlignment(SwingConstants.CENTER);
 
-
-        c.gridx=0;
-        c.gridy=0;
+        c.gridx = 0;
+        c.gridy = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.PAGE_START;
         welcomePanel.add(welcome1, c);
 
-        c.gridy=1;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridy = 1;
         welcomePanel.add(welcome2, c);
 
         JButton enter = new JButton("Enter the Store");
@@ -173,22 +183,52 @@ public class StoreView {
                 card.show(mainPanel, COMMANDPANELSTRING); //goto commands
             }
         });
-        c.gridy=2;
+        c.gridy = 2;
+        c.ipady = 5;
+        c.insets = new Insets(20, 0, 0, 0);
+        c.anchor = GridBagConstraints.PAGE_END;
         welcomePanel.add(enter, c);
 
         return welcomePanel;
     }
 
+    private JPanel createCommandPanel() {
+        JPanel commandPanel = new JPanel();
 
-    /**
-     * Main Method for program execution
-     * @param args Unused: no parameters utilized in this version
-     */
-    public static void main(String[] args) {
-        StoreManager sm = new StoreManager();
-        StoreView sv = new StoreView(sm, sm.newShoppingCart()); //add one existing store.StoreView
+        JButton browseStore = new JButton("Browse the Store");
+        browseStore.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                card.show(mainPanel, STOREPANELSTRING);
+            }
+        });
 
-        displayGUI();
+        JButton viewCart = new JButton("View Shopping Cart");
+        viewCart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                card.show(mainPanel, CARTPANELSTRING);
+            }
+        });
+        commandPanel.add(browseStore);
+        commandPanel.add(viewCart);
+
+        return commandPanel;
+    }
+
+    private JPanel createStorePanel() {
+        JPanel storePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        JPanel inventoryPanel = new JPanel();
+        //for myStoreManager.getMyInventory().
+
+        c.gridx = 0;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+
+        return storePanel;
     }
 
     /*

@@ -99,9 +99,7 @@ public class StoreManager {
      */
     public void emptyCart(int cartID) {
         int amount;
-        Set<Integer> hashSet = userCarts.get(cartID).getUserCart().getProductQuantity().keySet();
-        Integer[] keys = new Integer[hashSet.size()];
-        hashSet.toArray(keys);
+        Integer[] keys = myInventory.getIDs();
 
         for (int i : keys) {
             amount = userCarts.get(cartID).getUserCart().getStock(i);
@@ -127,26 +125,12 @@ public class StoreManager {
         String[] yn = new String[]{"Y", "N"};
         s = UserInput.getStringInput(yn);
         if (s.equals("Y")) {
-            userCarts.get(cartID).getUserCart().getProductQuantity().clear();
-            userCarts.get(cartID).getUserCart().getProductInfo().clear();
+            userCarts.get(cartID).clearCart();
             return true;
         } else {
             return false;
         }
     }
 
-    /**
-     * Display the Store's store.Inventory
-     */
-    public void printInventory() {
-        System.out.println("|--------------------THE COURSE STORE--------------------|");
-        System.out.println("\\------------------------------------------------------- /");
-        System.out.println("Type 'help' for a list of commands.\n");
-        System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
 
-        for (int i : myInventory.getProductQuantity().keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, myInventory.getInfo(i).getNAME(), myInventory.getInfo(i).getPRICE(), myInventory.getStock(i));
-        }
-        System.out.print("\n\n");
-    }
 }
