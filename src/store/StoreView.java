@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -21,13 +22,12 @@ public class StoreView {
     private static final String COMMANDPANELSTRING = "commandPanel";
     private static final String CARTPANELSTRING = "cartPanel";
     private static final String STOREPANELSTRING = "storePanel";
-    /**
-     * Available commands for user to input when connected to a store
-     */
-    private static final String[] COMMANDS = {"browse", "viewCart", "add", "remove", "checkout", "help"};
+
+    // {"browse", "viewCart", "add", "remove", "checkout", "help"};
     private static JFrame frame;
     private static JPanel mainPanel;
     private static CardLayout card = new CardLayout();
+
     private StoreManager myStoreManager;
     private int cartID;
 
@@ -48,7 +48,7 @@ public class StoreView {
      * Display the GUI
      */
     public static void displayGUI() {
-        frame.setSize(500, 150);
+        frame.setSize(1000, 1000);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -61,17 +61,6 @@ public class StoreView {
             }
         });
         frame.setVisible(true);
-    }
-
-    /**
-     * Print available commands for UI
-     */
-    public static void help() {
-        System.out.print("Valid Commands: ");
-        for (int i = 0; i < COMMANDS.length - 1; i++) {
-            System.out.print(COMMANDS[i] + ", ");
-        }
-        System.out.println(COMMANDS[COMMANDS.length - 1]);
     }
 
     /**
@@ -147,7 +136,7 @@ public class StoreView {
 
         JPanel commandPanel = createCommandPanel();
 
-        JPanel storePanel = new JPanel();
+        JPanel storePanel = createStorePanel();
 
         JPanel cartPanel = new JPanel();
 
@@ -155,6 +144,7 @@ public class StoreView {
         /* Add Panels to mainPanel */
         mainPanel.add(welcomePanel, WELCOMEPANELSTRING);
         mainPanel.add(commandPanel, COMMANDPANELSTRING);
+        mainPanel.add(storePanel,STOREPANELSTRING);
     }
 
     private JPanel createWelcomePanel() {
@@ -216,17 +206,82 @@ public class StoreView {
         return commandPanel;
     }
 
+    //TODO: Figure out how to add an image/icon to a JPanel
     private JPanel createStorePanel() {
-        JPanel storePanel = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        GridLayout gl = new GridLayout(0,3);
+        gl.setHgap(40);
+        gl.setVgap(40);
+        JPanel storePanel = new JPanel(gl);
 
         JPanel inventoryPanel = new JPanel();
-        //for myStoreManager.getMyInventory().
+        Integer[] IDs = myStoreManager.getMyInventory().getIDs();
+        Inventory inv = myStoreManager.getMyInventory();
 
-        c.gridx = 0;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        int row=0;
+        int col=0;
+
+        GridBagConstraints iconC = new GridBagConstraints();
+        iconC.gridx=0;
+        iconC.gridy=0;
+        iconC.weightx=0.6;
+        iconC.weighty=0.6;
+        iconC.gridheight=3;
+        iconC.gridwidth=3;
+        iconC.fill = GridBagConstraints.BOTH;
+
+        GridBagConstraints nameC = new GridBagConstraints();
+        nameC.gridx=0;
+        nameC.gridy=3;
+        nameC.weightx=0.1;
+        nameC.weighty=0.1;
+        nameC.gridheight=1;
+        nameC.gridwidth=3;
+        nameC.insets = new Insets(5,0,0,0);
+
+        GridBagConstraints priceC = new GridBagConstraints();
+        priceC.gridx=3;
+        priceC.gridy=0;
+        priceC.weightx=0.1;
+        priceC.weighty=0.1;
+        priceC.gridheight=1;
+        priceC.gridwidth=3;
+        priceC.anchor = GridBagConstraints.FIRST_LINE_END;
+
+        GridBagConstraints stockC = new GridBagConstraints();
+        stockC.gridx=3;
+        stockC.gridy=1;
+        stockC.weightx=0.1;
+        stockC.weighty=0.1;
+        stockC.gridheight=1;
+        stockC.gridwidth=3;
+        stockC.anchor = GridBagConstraints.LINE_END;
+
+        for (Integer id : IDs) {
+            if (col==3){
+                row++;
+                col=0;
+            }
+            JPanel jp = new JPanel(new GridBagLayout());
+
+            JPanel icon = new JPanel();
+            icon.setBackground(Color.RED);
+            icon.setPreferredSize(new Dimension(1920, 1080));
+
+            JLabel nameLabel = new JLabel(inv.getInfo(id).getNAME());
+            nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            JLabel priceLabel = new JLabel("$"+String.valueOf(inv.getInfo(id).getPRICE()));
+            priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            JLabel stockLabel = new JLabel("Stock: "+String.valueOf(inv.getStock(id)));
+            stockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
+            jp.add(icon, iconC);
+            jp.add(nameLabel, nameC);
+            jp.add(priceLabel, priceC);
+            jp.add(stockLabel, stockC);
+            storePanel.add(jp);
+
+            col++;
+        }
 
         return storePanel;
     }
