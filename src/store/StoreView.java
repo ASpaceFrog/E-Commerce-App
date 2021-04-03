@@ -103,6 +103,8 @@ public class StoreView {
 
         c.gridx=16;
         c.gridwidth=4;
+        c.gridheight=4;
+        c.insets = new Insets(0,10,0,0);
         storeUI.add(cartButtons, c);
 
         /* Add Panels to mainPanel */
