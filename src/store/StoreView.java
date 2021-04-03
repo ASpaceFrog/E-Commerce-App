@@ -1,9 +1,11 @@
 package store;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
@@ -69,6 +71,24 @@ public class StoreView {
         StoreView sv = new StoreView(sm, sm.newShoppingCart()); //add one existing store.StoreView
 
         displayGUI();
+    }
+
+    /**
+     * Create an icon using an image
+     * @param path String, relative path to the image
+     * @param description String, description of the icon
+     * @param height int, icon height
+     * @param width int, image width
+     * @return returns an ImageIcon, or null if the path was invalid.
+     */
+    private ImageIcon createImageIcon(String path, String description, int width, int height) {
+        try{
+            Image img = ImageIO.read(getClass().getResource(path));
+            return new ImageIcon(img.getScaledInstance(width,height,Image.SCALE_DEFAULT));
+        } catch (Exception e){
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
     }
 
     /**
@@ -197,8 +217,10 @@ public class StoreView {
             JPanel productPanel = new JPanel(new GridBagLayout());
             productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-            JPanel icon = new JPanel();
-            icon.setBackground(Color.RED);
+
+            ImageIcon iconImage = createImageIcon("images/"+inv.getInfo(id).getNAME()+".png", inv.getInfo(id).getNAME(), 250, 250);
+            JLabel icon = new JLabel();
+            icon.setIcon(iconImage);
             icon.setPreferredSize(new Dimension(150, 150));
 
             JLabel nameLabel = new JLabel(inv.getInfo(id).getNAME());
