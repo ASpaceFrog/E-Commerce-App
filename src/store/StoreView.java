@@ -39,7 +39,7 @@ public class StoreView {
         frame.setTitle("Store GUI");
         frame.add(mainPanel);
         frame.pack();
-        frame.setResizable(false);
+        frame.setResizable(true);
 
     }
 
@@ -112,6 +112,7 @@ public class StoreView {
     private void createPanels() {
         JPanel welcomePanel = createWelcomePanel();
         JPanel inventoryPanel = createInvPanel();
+        inventoryPanel.setPreferredSize(new Dimension(FRAMEWIDTH-100, FRAMEHEIGHT));
         JPanel cartButtons = createCartButtons();
 
         JPanel storeUI = new JPanel(new GridBagLayout());
@@ -119,11 +120,15 @@ public class StoreView {
 
         c.gridy = 0;
         c.gridx = 0;
+        c.weightx=1;
+        c.weighty=1;
         c.gridwidth = 16;
         c.gridheight = 9;
         storeUI.add(inventoryPanel, c);
 
         c.gridx = 16;
+        c.weightx=0;
+        c.weighty=0;
         c.gridwidth = 4;
         c.gridheight = 4;
         c.insets = new Insets(0, 10, 0, 0);
@@ -174,7 +179,6 @@ public class StoreView {
 
         Integer[] IDs = myStoreManager.getMyInventory().getIDs();
         Inventory inv = myStoreManager.getMyInventory();
-
 
         GridBagConstraints iconC = new GridBagConstraints();
         iconC.gridx = 0;
@@ -252,7 +256,6 @@ public class StoreView {
             invPanel.add(productPanel);
             productPanels.put(id, productPanel);
         }
-
         return invPanel;
     }
 
