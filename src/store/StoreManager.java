@@ -11,12 +11,21 @@ import java.util.Set;
  */
 public class StoreManager {
     //init store.Inventory to some default values
-    private Inventory myInventory = new Inventory(new Product[]{new Product("apple", 1, 2.00),
-            new Product("orange",2,2.5),
-            new Product("banana",3,2.75),
-            new Product("mango",4,3)
-    }, new int[]{10,5,20,2});
+    private Inventory myInventory;
     private ArrayList<ShoppingCart> userCarts = new ArrayList<>();
+
+    public StoreManager() {
+        Product[] products = new Product[]{new Product("apple", 1, 2.00),
+                new Product("orange", 2, 2.5),
+                new Product("banana", 3, 2.75),
+                new Product("mango", 4, 3),
+                new Product("grape", 5, 3),
+                new Product("pineapple", 6, 5),
+                new Product("water malone", 7, 10),
+        };
+        int[] stock = new int[]{10,15,20,20, 30, 40, 20};
+        myInventory = new Inventory(products, stock);
+    }
 
     /**
      * Get the store's inventory
