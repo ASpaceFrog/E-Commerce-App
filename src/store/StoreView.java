@@ -306,8 +306,17 @@ public class StoreView {
             }
         });
 
+        JButton quit = new JButton("Quit");
+        quit.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(frame, "Are you sure you want return to the menu?")
+                    == JOptionPane.OK_OPTION) {
+                card.show(mainPanel, WELCOMEPANELSTRING);
+            }
+        });
+
         cartButtons.add(viewCart, BorderLayout.PAGE_START);
-        cartButtons.add(checkout, BorderLayout.PAGE_END);
+        cartButtons.add(checkout, BorderLayout.CENTER);
+        cartButtons.add(quit, BorderLayout.PAGE_END);
         return cartButtons;
     }
 
