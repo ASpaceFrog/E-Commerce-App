@@ -14,19 +14,16 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class StoreView {
-    private static final String WELCOMEPANELSTRING = "welcomePanel";
-    private static final String COMMANDPANELSTRING = "commandPanel";
-    private static final String CARTPANELSTRING = "cartPanel";
-    private static final String STOREPANELSTRING = "storePanel";
-
-    // {"browse", "viewCart", "add", "remove", "checkout", "help"};
     private static JFrame frame;
     private static JPanel mainPanel;
-    private static CardLayout card = new CardLayout();
-    private HashMap<Integer, JPanel> productPanels = new HashMap<>();
+    private static final CardLayout card = new CardLayout();
+    private final HashMap<Integer, JPanel> productPanels = new HashMap<>();
 
-    private StoreManager myStoreManager;
-    private int cartID;
+    private static final String WELCOMEPANELSTRING = "welcomePanel";
+    private static final String STOREUISTRING = "storeUI";
+
+    private final StoreManager myStoreManager;
+    private final int cartID;
 
     public StoreView(StoreManager myStoreManager, int cartID) {
         this.myStoreManager = myStoreManager;
@@ -40,6 +37,7 @@ public class StoreView {
         frame.add(mainPanel);
         frame.pack();
         frame.setResizable(false);
+
     }
 
     /**
@@ -122,27 +120,32 @@ public class StoreView {
 
     /**
      * Checkout User's cart
-     *
-     * @return boolean, false if user aborts checkout
      */
-    public boolean checkout() {
-        return myStoreManager.processTransaction(cartID);
+    public void checkout() {
+        myStoreManager.getUserCarts().get(cartID).clearCart();
     }
 
     private void createPanels() {
         JPanel welcomePanel = createWelcomePanel();
+        JPanel inventoryPanel = createInvPanel();
+        JPanel cartButtons = createCartButtons();
 
-        JPanel commandPanel = createCommandPanel();
+        JPanel storeUI = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        JPanel storePanel = createStorePanel();
+        c.gridy=0;
+        c.gridx=0;
+        c.gridwidth=16;
+        c.gridheight=9;
+        storeUI.add(inventoryPanel, c);
 
-        JPanel cartPanel = new JPanel();
-
+        c.gridx=16;
+        c.gridwidth=4;
+        storeUI.add(cartButtons, c);
 
         /* Add Panels to mainPanel */
         mainPanel.add(welcomePanel, WELCOMEPANELSTRING);
-        mainPanel.add(commandPanel, COMMANDPANELSTRING);
-        mainPanel.add(storePanel, STOREPANELSTRING);
+        mainPanel.add(storeUI, STOREUISTRING);
     }
 
     private JPanel createWelcomePanel() {
@@ -166,7 +169,7 @@ public class StoreView {
 
         JButton enter = new JButton("Enter the Store");
         enter.addActionListener(e -> {
-            card.show(mainPanel, COMMANDPANELSTRING); //goto commands
+            card.show(mainPanel, STOREUISTRING); //goto commands
         });
         c.gridy = 2;
         c.ipady = 5;
@@ -177,26 +180,12 @@ public class StoreView {
         return welcomePanel;
     }
 
-    private JPanel createCommandPanel() {
-        JPanel commandPanel = new JPanel();
-
-        JButton browseStore = new JButton("Browse the Store");
-        browseStore.addActionListener(e -> card.show(mainPanel, STOREPANELSTRING));
-
-        JButton viewCart = new JButton("View Shopping Cart");
-        viewCart.addActionListener(e -> card.show(mainPanel, CARTPANELSTRING));
-        commandPanel.add(browseStore);
-        commandPanel.add(viewCart);
-
-        return commandPanel;
-    }
-
     //TODO: Figure out how to add an image/icon to a JPanel
-    private JPanel createStorePanel() {
+    private JPanel createInvPanel() {
         GridLayout gl = new GridLayout(0, 3);
         gl.setHgap(40);
         gl.setVgap(40);
-        JPanel invPanels = new JPanel(gl);
+        JPanel invPanel = new JPanel(gl);
 
         Integer[] IDs = myStoreManager.getMyInventory().getIDs();
         Inventory inv = myStoreManager.getMyInventory();
@@ -259,10 +248,10 @@ public class StoreView {
 
             JPanel textPanel = new JPanel();
 
-            JLabel priceLabel = new JLabel("$" + String.valueOf(inv.getInfo(id).getPRICE()));
+            JLabel priceLabel = new JLabel("$" + inv.getInfo(id).getPRICE());
             priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-            JLabel stockLabel = new JLabel("Stock: " + String.valueOf(inv.getStock(id)));
+            JLabel stockLabel = new JLabel("Stock: " + inv.getStock(id));
             stockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
             textPanel.add(priceLabel);
@@ -279,13 +268,70 @@ public class StoreView {
             productPanel.add(textPanel, textC);
             productPanel.add(buttonPanel, buttonC);
             productPanel.setPreferredSize(new Dimension(300, 300));
-            invPanels.add(productPanel);
+            invPanel.add(productPanel);
             productPanels.put(id, productPanel);
 
             col++;
         }
 
-        return invPanels;
+        return invPanel;
+    }
+
+    private void showCart(){
+        JPanel cartPanel = new JPanel(new GridLayout(0,1));
+        Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
+        String name;
+        int cartStock;
+        double productPrice;
+        double totalPrice = 0;
+        StringBuilder sb = new StringBuilder();
+
+        if (IDs.length == 0){
+            sb.append("Empty");
+        }
+        else{
+            for (int id: IDs){
+                name = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getNAME();
+                cartStock = myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(id);
+                productPrice = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getPRICE();
+                totalPrice += productPrice;
+                sb.append(name).append(": ").append(cartStock).append(" $").append(productPrice).append("\n");
+            }
+            sb.append("Total Price: $").append(totalPrice);
+        }
+
+        JOptionPane.showMessageDialog(frame,
+                sb.toString(),
+                "Cart",
+                JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private JPanel createCartButtons(){
+        JPanel cartButtons = new JPanel(new BorderLayout());
+
+        JButton viewCart = new JButton("View Cart");
+        viewCart.addActionListener(e -> {
+            showCart();
+        });
+
+        JButton checkout = new JButton("Checkout Cart");
+        checkout.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to checkout?")
+                    == JOptionPane.OK_OPTION) {
+                //save a copy of the product IDs in the user's cart
+                Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
+
+                checkout();
+                //update buttons so the user cannot remove stock from products that were previously in the cart
+                for (int id : IDs){
+                    updateButtons(id);
+                }
+            }
+        });
+
+        cartButtons.add(viewCart, BorderLayout.PAGE_START);
+        cartButtons.add(checkout, BorderLayout.PAGE_END);
+        return cartButtons;
     }
 
     private JButton createPlusButton(int productID) {
@@ -308,7 +354,7 @@ public class StoreView {
     }
 
     private void updateButtons(int productID) {
-        //update stock value
+        //update store stock value
         JPanel textPanel = (JPanel) productPanels.get(productID).getComponents()[2];
         JLabel stockLabel = (JLabel) textPanel.getComponents()[1];
         stockLabel.setText(String.valueOf(myStoreManager.getMyInventory().getStock(productID)));
@@ -318,91 +364,9 @@ public class StoreView {
         JButton plus = (JButton) buttonPanel.getComponents()[0];
         JButton minus = (JButton) buttonPanel.getComponents()[1];
 
-        if (myStoreManager.getMyInventory().getStock(productID) > 0) { //store still has stock
-            plus.setEnabled(true);
-        } else {
-            plus.setEnabled(false);
-        }
-
-        if (myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(productID) > 0) { //more than 0 of product in cart
-            minus.setEnabled(true);
-        } else {
-            minus.setEnabled(false);
-        }
+        //store still has stock
+        plus.setEnabled(myStoreManager.getMyInventory().getStock(productID) > 0);
+        //more than 0 of product in cart
+        minus.setEnabled(myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(productID) > 0);
     }
-
-    /*
-    public static void main2(String[] args) {
-        StoreManager sm = new StoreManager();
-        Scanner sc = new Scanner(System.in);
-        boolean exit = false;
-        boolean exitCart;
-        int i, id, amount;
-        String s;
-
-
-        storeViews.add(new StoreView(sm, sm.newShoppingCart())); //add one existing store.StoreView
-
-        while (!exit) {
-            System.out.println("Please select a command:");
-            System.out.println("1: Select an existing StoreView");
-            System.out.println("2: Create a new StoreView");
-            System.out.println("-1: Exit \n");
-
-
-            i = UserInput.getIntInput(-1, 2);
-
-            if (i == 1) { //choose existing
-                System.out.println("Please select a StoreView or choose -1 to exit.");
-                System.out.println("Existing Store Views:");
-                UserInput.printArray(storeViews);
-                System.out.print("\n");
-                i = UserInput.getIntInput(-1, storeViews.size() - 1);
-
-                if (i == -1) {
-                    break;
-                } else {  //the juice
-                    exitCart = false;
-                    while (!exitCart) {
-                        System.out.println("Enter a command or -1 to exit");
-                        System.out.print(">>> ");
-                        s = sc.nextLine();
-                        switch (s) {
-                            case "browse" -> storeViews.get(i).browse();
-                            case "viewCart" -> storeViews.get(i).viewCart();
-                            case "add" -> {
-                                storeViews.get(i).browse();
-                                System.out.println("Please enter the id of the Product you wish to add to your cart.");
-                                id = UserInput.getIntInput();
-                                System.out.println("Please enter the amount of the Product you wish to add to your cart.");
-                                amount = UserInput.getIntInput();
-                                storeViews.get(i).addToUser(id, amount);
-                            }
-                            case "remove" -> {
-                                storeViews.get(i).viewCart();
-                                System.out.println("Please enter the id of the Product you wish to remove from your cart.");
-                                id = UserInput.getIntInput();
-                                System.out.println("Please enter the amount of the Product you wish to remove from your cart.");
-                                amount = UserInput.getIntInput();
-                                storeViews.get(i).removeFromUser(id, amount);
-                            }
-                            case "checkout" -> storeViews.get(i).checkout();
-                            case "-1" -> exitCart = true;
-                            default -> help();
-                        }
-                    }
-
-                }
-
-            } else if (i == 2) { //add new
-                storeViews.add(new StoreView(sm, sm.newShoppingCart()));
-                System.out.println("New StoreView Created. \n");
-            } else {
-                exit = true;
-            }
-        }
-
-    }
-    */
-
 }
