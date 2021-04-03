@@ -23,6 +23,10 @@ public class StoreView {
 
     private static final String WELCOMEPANELSTRING = "welcomePanel";
     private static final String STOREUISTRING = "storeUI";
+    private static final int FRAMEHEIGHT = 768;
+    private static final int FRAMEWIDTH = 1200;
+    private static final int ICONHEIGHT = 150;
+    private static final int ICONWIDTH = 150;
 
     private final StoreManager myStoreManager;
     private final int cartID;
@@ -46,7 +50,7 @@ public class StoreView {
      * Display the GUI
      */
     public static void displayGUI() {
-        frame.setSize(1000, 562);
+        frame.setSize(FRAMEWIDTH, FRAMEHEIGHT);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -218,10 +222,10 @@ public class StoreView {
             productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 
-            ImageIcon iconImage = createImageIcon("images/"+inv.getInfo(id).getNAME()+".png", inv.getInfo(id).getNAME(), 250, 250);
+            ImageIcon iconImage = createImageIcon("images/"+inv.getInfo(id).getNAME()+".png", inv.getInfo(id).getNAME(), ICONWIDTH, ICONHEIGHT);
             JLabel icon = new JLabel();
             icon.setIcon(iconImage);
-            icon.setPreferredSize(new Dimension(150, 150));
+            icon.setPreferredSize(new Dimension(ICONWIDTH, ICONHEIGHT));
 
             JLabel nameLabel = new JLabel(inv.getInfo(id).getNAME());
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
