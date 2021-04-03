@@ -39,7 +39,7 @@ public class StoreView {
         frame.setTitle("Store GUI");
         frame.add(mainPanel);
         frame.pack();
-        frame.setResizable(true);
+        frame.setResizable(false);
 
     }
 
@@ -115,6 +115,7 @@ public class StoreView {
         //inventoryPanel.setPreferredSize(new Dimension(FRAMEWIDTH-100, FRAMEHEIGHT));
         JScrollPane scrollPane = new JScrollPane(inventoryPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(FRAMEWIDTH-200, FRAMEHEIGHT-100));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         JPanel cartButtons = createCartButtons();
 
         JPanel storeUI = new JPanel(new GridBagLayout());
