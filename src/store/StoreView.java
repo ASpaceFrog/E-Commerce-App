@@ -18,8 +18,8 @@ public class StoreView {
     private static final CardLayout card = new CardLayout();
     private static final String WELCOMEPANELSTRING = "welcomePanel";
     private static final String STOREUISTRING = "storeUI";
-    private static final int FRAMEHEIGHT = 768;
-    private static final int FRAMEWIDTH = 1200;
+    private static final int FRAMEHEIGHT = 788;
+    private static final int FRAMEWIDTH = 1400;
     private static final int ICONHEIGHT = 150;
     private static final int ICONWIDTH = 150;
     private static JFrame frame;
@@ -112,7 +112,9 @@ public class StoreView {
     private void createPanels() {
         JPanel welcomePanel = createWelcomePanel();
         JPanel inventoryPanel = createInvPanel();
-        inventoryPanel.setPreferredSize(new Dimension(FRAMEWIDTH-100, FRAMEHEIGHT));
+        //inventoryPanel.setPreferredSize(new Dimension(FRAMEWIDTH-100, FRAMEHEIGHT));
+        JScrollPane scrollPane = new JScrollPane(inventoryPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(FRAMEWIDTH-200, FRAMEHEIGHT-100));
         JPanel cartButtons = createCartButtons();
 
         JPanel storeUI = new JPanel(new GridBagLayout());
@@ -124,7 +126,7 @@ public class StoreView {
         c.weighty=1;
         c.gridwidth = 16;
         c.gridheight = 9;
-        storeUI.add(inventoryPanel, c);
+        storeUI.add(scrollPane, c);
 
         c.gridx = 16;
         c.weightx=0;
