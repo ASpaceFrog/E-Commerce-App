@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
@@ -16,18 +15,16 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class StoreView {
-    private static JFrame frame;
-    private static JPanel mainPanel;
     private static final CardLayout card = new CardLayout();
-    private final HashMap<Integer, JPanel> productPanels = new HashMap<>();
-
     private static final String WELCOMEPANELSTRING = "welcomePanel";
     private static final String STOREUISTRING = "storeUI";
     private static final int FRAMEHEIGHT = 768;
     private static final int FRAMEWIDTH = 1200;
     private static final int ICONHEIGHT = 150;
     private static final int ICONWIDTH = 150;
-
+    private static JFrame frame;
+    private static JPanel mainPanel;
+    private final HashMap<Integer, JPanel> productPanels = new HashMap<>();
     private final StoreManager myStoreManager;
     private final int cartID;
 
@@ -79,17 +76,18 @@ public class StoreView {
 
     /**
      * Create an icon using an image
-     * @param path String, relative path to the image
+     *
+     * @param path        String, relative path to the image
      * @param description String, description of the icon
-     * @param height int, icon height
-     * @param width int, image width
+     * @param height      int, icon height
+     * @param width       int, image width
      * @return returns an ImageIcon, or null if the path was invalid.
      */
     private ImageIcon createImageIcon(String path, String description, int width, int height) {
-        try{
+        try {
             Image img = ImageIO.read(getClass().getResource(path));
-            return new ImageIcon(img.getScaledInstance(width,height,Image.SCALE_DEFAULT));
-        } catch (Exception e){
+            return new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        } catch (Exception e) {
             System.err.println("Couldn't find file: " + path);
             return null;
         }
@@ -119,16 +117,16 @@ public class StoreView {
         JPanel storeUI = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        c.gridy=0;
-        c.gridx=0;
-        c.gridwidth=16;
-        c.gridheight=9;
+        c.gridy = 0;
+        c.gridx = 0;
+        c.gridwidth = 16;
+        c.gridheight = 9;
         storeUI.add(inventoryPanel, c);
 
-        c.gridx=16;
-        c.gridwidth=4;
-        c.gridheight=4;
-        c.insets = new Insets(0,10,0,0);
+        c.gridx = 16;
+        c.gridwidth = 4;
+        c.gridheight = 4;
+        c.insets = new Insets(0, 10, 0, 0);
         storeUI.add(cartButtons, c);
 
         /* Add Panels to mainPanel */
@@ -222,7 +220,7 @@ public class StoreView {
             productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 
-            ImageIcon iconImage = createImageIcon("images/"+inv.getInfo(id).getNAME()+".png", inv.getInfo(id).getNAME(), ICONWIDTH, ICONHEIGHT);
+            ImageIcon iconImage = createImageIcon("images/" + inv.getInfo(id).getNAME() + ".png", inv.getInfo(id).getNAME(), ICONWIDTH, ICONHEIGHT);
             JLabel icon = new JLabel();
             icon.setIcon(iconImage);
             icon.setPreferredSize(new Dimension(ICONWIDTH, ICONHEIGHT));
@@ -259,7 +257,7 @@ public class StoreView {
         return invPanel;
     }
 
-    private void showCart(){
+    private void showCart() {
         Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
         String name;
         int cartStock;
@@ -267,11 +265,10 @@ public class StoreView {
         double totalPrice = 0;
         StringBuilder sb = new StringBuilder();
 
-        if (IDs.length == 0){
+        if (IDs.length == 0) {
             sb.append("Empty");
-        }
-        else{
-            for (int id: IDs){
+        } else {
+            for (int id : IDs) {
                 name = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getNAME();
                 cartStock = myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(id);
                 productPrice = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getPRICE();
@@ -287,7 +284,7 @@ public class StoreView {
                 JOptionPane.PLAIN_MESSAGE);
     }
 
-    private JPanel createCartButtons(){
+    private JPanel createCartButtons() {
         JPanel cartButtons = new JPanel(new BorderLayout());
 
         JButton viewCart = new JButton("View Cart");
@@ -304,7 +301,7 @@ public class StoreView {
 
                 checkout();
                 //update buttons so the user cannot remove stock from products that were previously in the cart
-                for (int id : IDs){
+                for (int id : IDs) {
                     updateButtons(id);
                 }
             }
