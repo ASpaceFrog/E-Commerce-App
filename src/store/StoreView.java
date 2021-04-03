@@ -2,10 +2,9 @@ package store;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
 
 /**
  * Manages User Interface for the system
@@ -24,6 +23,7 @@ public class StoreView {
     private static JFrame frame;
     private static JPanel mainPanel;
     private static CardLayout card = new CardLayout();
+    private HashMap<Integer, JPanel> productPanels = new HashMap<>();
 
     private StoreManager myStoreManager;
     private int cartID;
@@ -142,7 +142,7 @@ public class StoreView {
         /* Add Panels to mainPanel */
         mainPanel.add(welcomePanel, WELCOMEPANELSTRING);
         mainPanel.add(commandPanel, COMMANDPANELSTRING);
-        mainPanel.add(storePanel,STOREPANELSTRING);
+        mainPanel.add(storePanel, STOREPANELSTRING);
     }
 
     private JPanel createWelcomePanel() {
@@ -193,63 +193,62 @@ public class StoreView {
 
     //TODO: Figure out how to add an image/icon to a JPanel
     private JPanel createStorePanel() {
-        GridLayout gl = new GridLayout(0,3);
+        GridLayout gl = new GridLayout(0, 3);
         gl.setHgap(40);
         gl.setVgap(40);
-        JPanel productPanel = new JPanel(gl);
+        JPanel invPanels = new JPanel(gl);
 
-        JPanel inventoryPanel = new JPanel();
         Integer[] IDs = myStoreManager.getMyInventory().getIDs();
         Inventory inv = myStoreManager.getMyInventory();
 
-        int row=0;
-        int col=0;
+        int row = 0;
+        int col = 0;
 
         GridBagConstraints iconC = new GridBagConstraints();
-        iconC.gridx=0;
-        iconC.gridy=0;
-        iconC.weightx=0.7;
-        iconC.weighty=0.7;
-        iconC.gridheight=3;
-        iconC.gridwidth=3;
+        iconC.gridx = 0;
+        iconC.gridy = 0;
+        iconC.weightx = 0.7;
+        iconC.weighty = 0.7;
+        iconC.gridheight = 3;
+        iconC.gridwidth = 3;
         iconC.anchor = GridBagConstraints.FIRST_LINE_START;
         iconC.fill = GridBagConstraints.BOTH;
 
         GridBagConstraints nameC = new GridBagConstraints();
-        nameC.gridx=0;
-        nameC.gridy=3;
-        nameC.weightx=0.5;
-        nameC.weighty=0.5;
-        nameC.gridheight=1;
-        nameC.gridwidth=3;
-        nameC.insets = new Insets(5,0,0,0);
+        nameC.gridx = 0;
+        nameC.gridy = 3;
+        nameC.weightx = 0.5;
+        nameC.weighty = 0.5;
+        nameC.gridheight = 1;
+        nameC.gridwidth = 3;
+        nameC.insets = new Insets(5, 0, 0, 0);
 
         GridBagConstraints textC = new GridBagConstraints();
-        textC.gridx=3;
-        textC.gridy=0;
-        textC.weightx=0.5;
-        textC.weighty=0.5;
-        textC.gridheight=2;
-        textC.gridwidth=3;
+        textC.gridx = 3;
+        textC.gridy = 0;
+        textC.weightx = 0.5;
+        textC.weighty = 0.5;
+        textC.gridheight = 2;
+        textC.gridwidth = 3;
         textC.anchor = GridBagConstraints.FIRST_LINE_END;
 
 
         GridBagConstraints buttonC = new GridBagConstraints();
-        buttonC.gridx=3;
-        buttonC.gridy=2;
-        buttonC.weightx=0.5;
-        buttonC.weighty=0.5;
-        buttonC.gridheight=1;
-        buttonC.gridwidth=3;
+        buttonC.gridx = 3;
+        buttonC.gridy = 2;
+        buttonC.weightx = 0.5;
+        buttonC.weighty = 0.5;
+        buttonC.gridheight = 1;
+        buttonC.gridwidth = 3;
         buttonC.anchor = GridBagConstraints.LAST_LINE_END;
 
         for (Integer id : IDs) {
-            if (col==3){
+            if (col == 3) {
                 row++;
-                col=0;
+                col = 0;
             }
-            JPanel jp = new JPanel(new GridBagLayout());
-            jp.setBorder(BorderFactory.createLineBorder(Color.black));
+            JPanel productPanel = new JPanel(new GridBagLayout());
+            productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             JPanel icon = new JPanel();
             icon.setBackground(Color.RED);
@@ -259,10 +258,13 @@ public class StoreView {
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
             JPanel textPanel = new JPanel();
-            JLabel priceLabel = new JLabel("$"+String.valueOf(inv.getInfo(id).getPRICE()));
+
+            JLabel priceLabel = new JLabel("$" + String.valueOf(inv.getInfo(id).getPRICE()));
             priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            JLabel stockLabel = new JLabel("Stock: "+String.valueOf(inv.getStock(id)));
+
+            JLabel stockLabel = new JLabel("Stock: " + String.valueOf(inv.getStock(id)));
             stockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
             textPanel.add(priceLabel);
             textPanel.add(stockLabel);
 
@@ -272,49 +274,61 @@ public class StoreView {
             buttonPanel.add(plus);
             buttonPanel.add(minus);
 
-            jp.add(icon, iconC);
-            jp.add(nameLabel, nameC);
-            jp.add(textPanel, textC);
-            jp.add(buttonPanel, buttonC);
-            jp.setPreferredSize(new Dimension(300,300));
-            productPanel.add(jp);
+            productPanel.add(icon, iconC);
+            productPanel.add(nameLabel, nameC);
+            productPanel.add(textPanel, textC);
+            productPanel.add(buttonPanel, buttonC);
+            productPanel.setPreferredSize(new Dimension(300, 300));
+            invPanels.add(productPanel);
+            productPanels.put(id, productPanel);
 
             col++;
         }
 
-        return productPanel;
+        return invPanels;
     }
 
-    private JButton createPlusButton(int productID){
+    private JButton createPlusButton(int productID) {
         JButton plus = new JButton("+");
         plus.addActionListener(e -> {
             myStoreManager.addToCart(cartID, productID, 1);
-
-            if (myStoreManager.getMyInventory().getStock(productID) > 0){ //store still has stock
-                plus.setEnabled(true);
-            }
-            else{
-                plus.setEnabled(false);
-            }
-            //TODO: update stock label here
+            updateButtons(productID);
         });
         return plus;
     }
 
-    private JButton createMinusButton(int productID){
+    private JButton createMinusButton(int productID) {
         JButton minus = new JButton("-");
         minus.addActionListener(e -> {
             myStoreManager.removeFromCart(cartID, productID, 1);
-            if (myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(productID) > 0){ //more than 0 of product in cart
-                minus.setEnabled(true);
-            }
-            else{
-                minus.setEnabled(false);
-            }
-            //TODO: update stock label here
+            updateButtons(productID);
         });
         minus.setEnabled(false); //button is disabled by default
         return minus;
+    }
+
+    private void updateButtons(int productID) {
+        //update stock value
+        JPanel textPanel = (JPanel) productPanels.get(productID).getComponents()[2];
+        JLabel stockLabel = (JLabel) textPanel.getComponents()[1];
+        stockLabel.setText(String.valueOf(myStoreManager.getMyInventory().getStock(productID)));
+
+        //update button states
+        JPanel buttonPanel = (JPanel) productPanels.get(productID).getComponents()[3];
+        JButton plus = (JButton) buttonPanel.getComponents()[0];
+        JButton minus = (JButton) buttonPanel.getComponents()[1];
+
+        if (myStoreManager.getMyInventory().getStock(productID) > 0) { //store still has stock
+            plus.setEnabled(true);
+        } else {
+            plus.setEnabled(false);
+        }
+
+        if (myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(productID) > 0) { //more than 0 of product in cart
+            minus.setEnabled(true);
+        } else {
+            minus.setEnabled(false);
+        }
     }
 
     /*
