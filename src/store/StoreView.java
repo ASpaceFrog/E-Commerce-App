@@ -287,25 +287,33 @@ public class StoreView {
 
     private JButton createPlusButton(int productID){
         JButton plus = new JButton("+");
-        plus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                myStoreManager.addToCart(cartID, productID, 1);
-                //TODO: UPDATE STOCK VALUE
+        plus.addActionListener(e -> {
+            myStoreManager.addToCart(cartID, productID, 1);
+
+            if (myStoreManager.getMyInventory().getStock(productID) > 0){ //store still has stock
+                plus.setEnabled(true);
             }
+            else{
+                plus.setEnabled(false);
+            }
+            //TODO: update stock label here
         });
         return plus;
     }
 
     private JButton createMinusButton(int productID){
         JButton minus = new JButton("-");
-        minus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                myStoreManager.removeFromCart(cartID, productID, 1);
-                //TODO: UPDATE STOCK VALUE
+        minus.addActionListener(e -> {
+            myStoreManager.removeFromCart(cartID, productID, 1);
+            if (myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(productID) > 0){ //more than 0 of product in cart
+                minus.setEnabled(true);
             }
+            else{
+                minus.setEnabled(false);
+            }
+            //TODO: update stock label here
         });
+        minus.setEnabled(false); //button is disabled by default
         return minus;
     }
 
