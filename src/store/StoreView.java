@@ -166,7 +166,6 @@ public class StoreView {
         return welcomePanel;
     }
 
-    //TODO: Figure out how to add an image/icon to a JPanel
     private JPanel createInvPanel() {
         GridLayout gl = new GridLayout(0, 3);
         gl.setHgap(40);
