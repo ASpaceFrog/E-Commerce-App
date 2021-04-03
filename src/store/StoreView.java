@@ -81,44 +81,6 @@ public class StoreView {
     }
 
     /**
-     * Display's the Store's inventory
-     */
-    public void browse() {
-        myStoreManager.getMyInventory().printInventory();
-    }
-
-    /**
-     * Display's the User's cart
-     */
-    public void viewCart() {
-        myStoreManager.getUserCarts().get(cartID).printCartInventory();
-    }
-
-    /**
-     * Add a store.Product to the User's cart
-     *
-     * @param id     int, store.Product id
-     * @param amount int, amount to add to user
-     */
-    public void addToUser(int id, int amount) {
-        if (!myStoreManager.addToCart(cartID, id, amount)) {
-            System.out.println("Error: Please enter a valid amount of stock to add to your cart!");
-        }
-    }
-
-    /**
-     * Remove a store.Product from the user'sCart
-     *
-     * @param id     int, store.Product id
-     * @param amount int, amount to remove from user
-     */
-    public void removeFromUser(int id, int amount) {
-        if (!myStoreManager.removeFromCart(cartID, id, amount)) {
-            System.out.println("Error: Please enter a valid amount of stock to remove from your cart!");
-        }
-    }
-
-    /**
      * Checkout User's cart
      */
     public void checkout() {
@@ -190,8 +152,6 @@ public class StoreView {
         Integer[] IDs = myStoreManager.getMyInventory().getIDs();
         Inventory inv = myStoreManager.getMyInventory();
 
-        int row = 0;
-        int col = 0;
 
         GridBagConstraints iconC = new GridBagConstraints();
         iconC.gridx = 0;
@@ -232,10 +192,6 @@ public class StoreView {
         buttonC.anchor = GridBagConstraints.LAST_LINE_END;
 
         for (Integer id : IDs) {
-            if (col == 3) {
-                row++;
-                col = 0;
-            }
             JPanel productPanel = new JPanel(new GridBagLayout());
             productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -270,15 +226,12 @@ public class StoreView {
             productPanel.setPreferredSize(new Dimension(300, 300));
             invPanel.add(productPanel);
             productPanels.put(id, productPanel);
-
-            col++;
         }
 
         return invPanel;
     }
 
     private void showCart(){
-        JPanel cartPanel = new JPanel(new GridLayout(0,1));
         Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
         String name;
         int cartStock;
@@ -294,7 +247,7 @@ public class StoreView {
                 name = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getNAME();
                 cartStock = myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(id);
                 productPrice = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getPRICE();
-                totalPrice += productPrice;
+                totalPrice += productPrice * cartStock;
                 sb.append(name).append(": ").append(cartStock).append(" $").append(productPrice).append("\n");
             }
             sb.append("Total Price: $").append(totalPrice);
