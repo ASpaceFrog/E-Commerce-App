@@ -6,9 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.ArrayList;
 
 /**
  * Manages User Interface for the system
@@ -42,13 +39,14 @@ public class StoreView {
         frame.setTitle("Store GUI");
         frame.add(mainPanel);
         frame.pack();
+        frame.setResizable(false);
     }
 
     /**
      * Display the GUI
      */
     public static void displayGUI() {
-        frame.setSize(1000, 1000);
+        frame.setSize(1000, 562);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -167,11 +165,8 @@ public class StoreView {
         welcomePanel.add(welcome2, c);
 
         JButton enter = new JButton("Enter the Store");
-        enter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                card.show(mainPanel, COMMANDPANELSTRING); //goto commands
-            }
+        enter.addActionListener(e -> {
+            card.show(mainPanel, COMMANDPANELSTRING); //goto commands
         });
         c.gridy = 2;
         c.ipady = 5;
@@ -186,20 +181,10 @@ public class StoreView {
         JPanel commandPanel = new JPanel();
 
         JButton browseStore = new JButton("Browse the Store");
-        browseStore.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                card.show(mainPanel, STOREPANELSTRING);
-            }
-        });
+        browseStore.addActionListener(e -> card.show(mainPanel, STOREPANELSTRING));
 
         JButton viewCart = new JButton("View Shopping Cart");
-        viewCart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                card.show(mainPanel, CARTPANELSTRING);
-            }
-        });
+        viewCart.addActionListener(e -> card.show(mainPanel, CARTPANELSTRING));
         commandPanel.add(browseStore);
         commandPanel.add(viewCart);
 
@@ -211,7 +196,7 @@ public class StoreView {
         GridLayout gl = new GridLayout(0,3);
         gl.setHgap(40);
         gl.setVgap(40);
-        JPanel storePanel = new JPanel(gl);
+        JPanel productPanel = new JPanel(gl);
 
         JPanel inventoryPanel = new JPanel();
         Integer[] IDs = myStoreManager.getMyInventory().getIDs();
@@ -223,38 +208,40 @@ public class StoreView {
         GridBagConstraints iconC = new GridBagConstraints();
         iconC.gridx=0;
         iconC.gridy=0;
-        iconC.weightx=0.6;
-        iconC.weighty=0.6;
+        iconC.weightx=0.7;
+        iconC.weighty=0.7;
         iconC.gridheight=3;
         iconC.gridwidth=3;
+        iconC.anchor = GridBagConstraints.FIRST_LINE_START;
         iconC.fill = GridBagConstraints.BOTH;
 
         GridBagConstraints nameC = new GridBagConstraints();
         nameC.gridx=0;
         nameC.gridy=3;
-        nameC.weightx=0.1;
-        nameC.weighty=0.1;
+        nameC.weightx=0.5;
+        nameC.weighty=0.5;
         nameC.gridheight=1;
         nameC.gridwidth=3;
         nameC.insets = new Insets(5,0,0,0);
 
-        GridBagConstraints priceC = new GridBagConstraints();
-        priceC.gridx=3;
-        priceC.gridy=0;
-        priceC.weightx=0.1;
-        priceC.weighty=0.1;
-        priceC.gridheight=1;
-        priceC.gridwidth=3;
-        priceC.anchor = GridBagConstraints.FIRST_LINE_END;
+        GridBagConstraints textC = new GridBagConstraints();
+        textC.gridx=3;
+        textC.gridy=0;
+        textC.weightx=0.5;
+        textC.weighty=0.5;
+        textC.gridheight=2;
+        textC.gridwidth=3;
+        textC.anchor = GridBagConstraints.FIRST_LINE_END;
 
-        GridBagConstraints stockC = new GridBagConstraints();
-        stockC.gridx=3;
-        stockC.gridy=1;
-        stockC.weightx=0.1;
-        stockC.weighty=0.1;
-        stockC.gridheight=1;
-        stockC.gridwidth=3;
-        stockC.anchor = GridBagConstraints.LINE_END;
+
+        GridBagConstraints buttonC = new GridBagConstraints();
+        buttonC.gridx=3;
+        buttonC.gridy=2;
+        buttonC.weightx=0.5;
+        buttonC.weighty=0.5;
+        buttonC.gridheight=1;
+        buttonC.gridwidth=3;
+        buttonC.anchor = GridBagConstraints.LAST_LINE_END;
 
         for (Integer id : IDs) {
             if (col==3){
@@ -262,28 +249,52 @@ public class StoreView {
                 col=0;
             }
             JPanel jp = new JPanel(new GridBagLayout());
+            jp.setBorder(BorderFactory.createLineBorder(Color.black));
 
             JPanel icon = new JPanel();
             icon.setBackground(Color.RED);
-            icon.setPreferredSize(new Dimension(1920, 1080));
+            icon.setPreferredSize(new Dimension(150, 150));
 
             JLabel nameLabel = new JLabel(inv.getInfo(id).getNAME());
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+            JPanel textPanel = new JPanel();
             JLabel priceLabel = new JLabel("$"+String.valueOf(inv.getInfo(id).getPRICE()));
             priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             JLabel stockLabel = new JLabel("Stock: "+String.valueOf(inv.getStock(id)));
             stockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            textPanel.add(priceLabel);
+            textPanel.add(stockLabel);
+
+            JPanel buttonPanel = new JPanel();
+            JButton plus = createPlusButton(id);
+            JButton minus = createMinusButton(id);
+            buttonPanel.add(plus);
+            buttonPanel.add(minus);
 
             jp.add(icon, iconC);
             jp.add(nameLabel, nameC);
-            jp.add(priceLabel, priceC);
-            jp.add(stockLabel, stockC);
-            storePanel.add(jp);
+            jp.add(textPanel, textC);
+            jp.add(buttonPanel, buttonC);
+            jp.setPreferredSize(new Dimension(300,300));
+            productPanel.add(jp);
 
             col++;
         }
 
-        return storePanel;
+        return productPanel;
+    }
+
+    private JButton createPlusButton(int productID){
+        JButton plus = new JButton("+");
+        plus.addActionListener(e -> myStoreManager.addToCart(cartID, productID, 1));
+        return plus;
+    }
+
+    private JButton createMinusButton(int productID){
+        JButton minus = new JButton("-");
+        minus.addActionListener(e -> myStoreManager.removeFromCart(cartID, productID, 1));
+        return minus;
     }
 
     /*
