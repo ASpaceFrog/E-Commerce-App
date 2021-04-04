@@ -78,12 +78,11 @@ public class StoreView {
      * Create an icon using an image
      *
      * @param path        String, relative path to the image
-     * @param description String, description of the icon
      * @param height      int, icon height
      * @param width       int, image width
      * @return returns an ImageIcon, or null if the path was invalid.
      */
-    private ImageIcon createImageIcon(String path, String description, int width, int height) {
+    private ImageIcon createImageIcon(String path, int width, int height) {
         try {
             Image img = ImageIO.read(getClass().getResource(path));
             return new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_DEFAULT));
@@ -238,7 +237,7 @@ public class StoreView {
             productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 
-            ImageIcon iconImage = createImageIcon("images/" + inv.getInfo(id).getNAME() + ".png", inv.getInfo(id).getNAME(), ICONWIDTH, ICONHEIGHT);
+            ImageIcon iconImage = createImageIcon("images/" + inv.getInfo(id).getNAME() + ".png", ICONWIDTH, ICONHEIGHT);
             JLabel icon = new JLabel();
             icon.setIcon(iconImage);
             icon.setPreferredSize(new Dimension(ICONWIDTH, ICONHEIGHT));
@@ -331,11 +330,18 @@ public class StoreView {
             }
         });
 
-        JButton quit = new JButton("Quit");
+        JButton quit = new JButton("Exit Store");
         quit.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(frame, "Are you sure you want return to the menu?")
                     == JOptionPane.OK_OPTION) {
                 card.show(mainPanel, WELCOMEPANELSTRING);
+                Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
+
+                myStoreManager.emptyCart(cartID);
+                //update buttons so the user cannot remove stock from products that were previously in the cart
+                for (int id : IDs) {
+                    updateButtons(id);
+                }
             }
         });
 
