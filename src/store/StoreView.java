@@ -153,9 +153,9 @@ public class StoreView {
         JPanel welcomePanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        JLabel welcome1 = new JLabel("Welcome to the meme store!");
+        JLabel welcome1 = new JLabel("Welcome to the produce store!");
         welcome1.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel welcome2 = new JLabel("We offer the best prices on the spiciest memes available on the market.");
+        JLabel welcome2 = new JLabel("We offer the best prices on fruits and vegetables!");
         welcome2.setHorizontalAlignment(SwingConstants.CENTER);
 
         c.gridx = 0;
@@ -172,11 +172,24 @@ public class StoreView {
         enter.addActionListener(e -> {
             card.show(mainPanel, STOREUISTRING); //goto commands
         });
+
+        JButton quit = new JButton("Quit");
+        quit.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?")
+                    == JOptionPane.OK_OPTION) {
+                frame.setVisible(false);
+                frame.dispose();
+            }
+        });
+
         c.gridy = 2;
         c.ipady = 5;
         c.insets = new Insets(20, 0, 0, 0);
         c.anchor = GridBagConstraints.PAGE_END;
         welcomePanel.add(enter, c);
+
+        c.gridy = 3;
+        welcomePanel.add(quit, c);
 
         return welcomePanel;
     }
