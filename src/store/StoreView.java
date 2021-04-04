@@ -296,7 +296,6 @@ public class StoreView {
         String name;
         int cartStock;
         double productPrice;
-        double totalPrice = 0;
         StringBuilder sb = new StringBuilder();
 
         if (IDs.length == 0) {
@@ -306,10 +305,9 @@ public class StoreView {
                 name = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getNAME();
                 cartStock = myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(id);
                 productPrice = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getPRICE();
-                totalPrice += productPrice * cartStock;
                 sb.append(name).append(": ").append(cartStock).append(" $").append(productPrice).append("\n");
             }
-            sb.append("Total Price: $").append(totalPrice);
+            sb.append("Total Price: $").append(myStoreManager.getUserCarts().get(cartID).getTotalPrice());
         }
 
         JOptionPane.showMessageDialog(frame,
