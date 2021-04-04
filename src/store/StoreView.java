@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Text UI for this version
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 1.0
+ * @version 2.0
  */
 public class StoreView {
     private static final CardLayout card = new CardLayout();
@@ -109,6 +109,9 @@ public class StoreView {
         myStoreManager.getUserCarts().get(cartID).clearCart();
     }
 
+    /**
+     * Create panels for each section and combine them into a mainPanel
+     */
     private void createPanels() {
         JPanel welcomePanel = createWelcomePanel();
         JPanel inventoryPanel = createInvPanel();
@@ -142,6 +145,10 @@ public class StoreView {
         mainPanel.add(storeUI, STOREUISTRING);
     }
 
+    /**
+     * Creates the welcome panel that greets the user
+     * @return JPanel, created welcome panel is returned
+     */
     private JPanel createWelcomePanel() {
         JPanel welcomePanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -174,6 +181,11 @@ public class StoreView {
         return welcomePanel;
     }
 
+    /**
+     * Create panel to display the store's inventory with
+     * plus and minus buttons to add and remove from cart
+     * @return JPanel, return the created JPanel
+     */
     private JPanel createInvPanel() {
         GridLayout gl = new GridLayout(0, 3);
         gl.setHgap(40);
@@ -255,13 +267,16 @@ public class StoreView {
             productPanel.add(nameLabel, nameC);
             productPanel.add(textPanel, textC);
             productPanel.add(buttonPanel, buttonC);
-            productPanel.setPreferredSize(new Dimension(300, 300));
+            productPanel.setPreferredSize(new Dimension(2*ICONWIDTH, 2*ICONHEIGHT));
             invPanel.add(productPanel);
             productPanels.put(id, productPanel);
         }
         return invPanel;
     }
 
+    /**
+     * Displays the user's shopping cart as a popup message
+     */
     private void showCart() {
         Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
         String name;
@@ -289,6 +304,10 @@ public class StoreView {
                 JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * Create the view cart, checkout, and quit buttons
+     * @return JPanel, return a JPanel containing the required buttons
+     */
     private JPanel createCartButtons() {
         JPanel cartButtons = new JPanel(new BorderLayout());
 
@@ -326,6 +345,11 @@ public class StoreView {
         return cartButtons;
     }
 
+    /**
+     * Create a plus button to add a product to the user's cart
+     * @param productID int, ID of product to add to cart
+     * @return JButton, return the competed plus button
+     */
     private JButton createPlusButton(int productID) {
         JButton plus = new JButton("+");
         plus.addActionListener(e -> {
@@ -335,6 +359,11 @@ public class StoreView {
         return plus;
     }
 
+    /**
+     * Create a minus button to remove a product from the user's cart
+     * @param productID int, ID of product to add to cart
+     * @return JButton, return the competed minus button
+     */
     private JButton createMinusButton(int productID) {
         JButton minus = new JButton("-");
         minus.addActionListener(e -> {
@@ -345,6 +374,11 @@ public class StoreView {
         return minus;
     }
 
+    /**
+     * Updates the availability of the plus and minus button
+     * deepending on teh Store's stock and the quantity of a stock in the useer's cart
+     * @param productID int, id of a Product
+     */
     private void updateButtons(int productID) {
         //update store stock value
         JPanel textPanel = (JPanel) productPanels.get(productID).getComponents()[2];
