@@ -49,8 +49,8 @@ class StoreManagerTest{
         Product p3 = new Product("banana", 3, 1.99); // Product not in StoreManager
 
         assertEquals(10, sm.checkStock(p1), "Field init in StoreManager is not working");
-        assertEquals(5, sm.checkStock(p2), "Field init in StoreManager is not working");
-        assertEquals(-1, sm.checkStock(p3), "Field init in StoreManager is not working");
+        assertEquals(15, sm.checkStock(p2), "Field init in StoreManager is not working");
+        assertEquals(20, sm.checkStock(p3), "Field init in StoreManager is not working");
     }
 
     /**
@@ -70,7 +70,7 @@ class StoreManagerTest{
         sm.newShoppingCart(); // Create new cart, id will be 0
 
         assertTrue(sm.addToCart(0, 1, 1), "Field init in StoreManager is not working or addToCart is not working"); // Product created by StoreManager
-        assertFalse(sm.addToCart(0, 5, 5), "Field init in StoreManager is not working or addToCart is not working");
+        assertFalse(sm.addToCart(0, 20, 5), "Field init in StoreManager is not working or addToCart is not working");
     }
 
     /**
