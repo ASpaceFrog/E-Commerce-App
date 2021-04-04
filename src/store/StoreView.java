@@ -104,7 +104,7 @@ public class StoreView {
     /**
      * Checkout User's cart
      */
-    public void checkout() {
+    private void checkout() {
         myStoreManager.getUserCarts().get(cartID).clearCart();
     }
 
