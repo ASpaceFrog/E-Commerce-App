@@ -70,7 +70,7 @@ public class ShoppingCart {
     /**
      * Clear the carts inventory
      */
-    public void clearCart(){
+    public void clearCart() {
         userCart.clearInventory();
     }
 }
