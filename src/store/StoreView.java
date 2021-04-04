@@ -400,7 +400,7 @@ public class StoreView {
 
     /**
      * Updates the availability of the plus and minus button
-     * deepending on teh Store's stock and the quantity of a stock in the useer's cart
+     * depending on teh Store's stock and the quantity of a stock in the user's cart
      *
      * @param productID int, id of a Product
      */
