@@ -77,9 +77,9 @@ public class StoreView {
     /**
      * Create an icon using an image
      *
-     * @param path        String, relative path to the image
-     * @param height      int, icon height
-     * @param width       int, image width
+     * @param path   String, relative path to the image
+     * @param height int, icon height
+     * @param width  int, image width
      * @return returns an ImageIcon, or null if the path was invalid.
      */
     private ImageIcon createImageIcon(String path, int width, int height) {
@@ -116,7 +116,7 @@ public class StoreView {
         JPanel inventoryPanel = createInvPanel();
         //inventoryPanel.setPreferredSize(new Dimension(FRAMEWIDTH-100, FRAMEHEIGHT));
         JScrollPane scrollPane = new JScrollPane(inventoryPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setPreferredSize(new Dimension(FRAMEWIDTH-200, FRAMEHEIGHT-100));
+        scrollPane.setPreferredSize(new Dimension(FRAMEWIDTH - 200, FRAMEHEIGHT - 100));
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         JPanel cartButtons = createCartButtons();
 
@@ -125,15 +125,15 @@ public class StoreView {
 
         c.gridy = 0;
         c.gridx = 0;
-        c.weightx=1;
-        c.weighty=1;
+        c.weightx = 1;
+        c.weighty = 1;
         c.gridwidth = 16;
         c.gridheight = 9;
         storeUI.add(scrollPane, c);
 
         c.gridx = 16;
-        c.weightx=0;
-        c.weighty=0;
+        c.weightx = 0;
+        c.weighty = 0;
         c.gridwidth = 4;
         c.gridheight = 4;
         c.insets = new Insets(0, 10, 0, 0);
@@ -146,6 +146,7 @@ public class StoreView {
 
     /**
      * Creates the welcome panel that greets the user
+     *
      * @return JPanel, created welcome panel is returned
      */
     private JPanel createWelcomePanel() {
@@ -183,6 +184,7 @@ public class StoreView {
     /**
      * Create panel to display the store's inventory with
      * plus and minus buttons to add and remove from cart
+     *
      * @return JPanel, return the created JPanel
      */
     private JPanel createInvPanel() {
@@ -266,7 +268,7 @@ public class StoreView {
             productPanel.add(nameLabel, nameC);
             productPanel.add(textPanel, textC);
             productPanel.add(buttonPanel, buttonC);
-            productPanel.setPreferredSize(new Dimension(2*ICONWIDTH, 2*ICONHEIGHT));
+            productPanel.setPreferredSize(new Dimension(2 * ICONWIDTH, 2 * ICONHEIGHT));
             invPanel.add(productPanel);
             productPanels.put(id, productPanel);
         }
@@ -305,6 +307,7 @@ public class StoreView {
 
     /**
      * Create the view cart, checkout, and quit buttons
+     *
      * @return JPanel, return a JPanel containing the required buttons
      */
     private JPanel createCartButtons() {
@@ -353,6 +356,7 @@ public class StoreView {
 
     /**
      * Create a plus button to add a product to the user's cart
+     *
      * @param productID int, ID of product to add to cart
      * @return JButton, return the competed plus button
      */
@@ -367,6 +371,7 @@ public class StoreView {
 
     /**
      * Create a minus button to remove a product from the user's cart
+     *
      * @param productID int, ID of product to add to cart
      * @return JButton, return the competed minus button
      */
@@ -383,6 +388,7 @@ public class StoreView {
     /**
      * Updates the availability of the plus and minus button
      * deepending on teh Store's stock and the quantity of a stock in the useer's cart
+     *
      * @param productID int, id of a Product
      */
     private void updateButtons(int productID) {

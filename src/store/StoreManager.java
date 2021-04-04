@@ -1,7 +1,6 @@
 package store;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Manages a Store's inventory. Allows transactions for products to be made.
@@ -27,7 +26,7 @@ public class StoreManager {
                 new Product("watermelon", 10, 6),
                 new Product("water malone", 11, 20)
         };
-        int[] stock = new int[]{10, 15, 20, 20, 30, 40, 20, 20 ,20 ,20 ,20};
+        int[] stock = new int[]{10, 15, 20, 20, 30, 40, 20, 20, 20, 20, 20};
         myInventory = new Inventory(products, stock);
     }
 
