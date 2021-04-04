@@ -11,7 +11,6 @@ import store.ShoppingCart;
 import store.StoreManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Class used to test StoreManager Class
@@ -90,11 +89,10 @@ class StoreManagerTest{
 
     }
 
-    // TODO: FIX THIS SHIT
     /**
      * Test emptying a cart in the StoreManager Class
      */
-    /*
+
     @Test
     public void testEmptyCart() {
         sm.newShoppingCart();  // Create new cart, id will be 0
@@ -102,16 +100,12 @@ class StoreManagerTest{
         sm.addToCart(0, 1, 1);
         sm.addToCart(0, 2, 3);
 
-        // ShoppingCart's Inventory will contain empty HashMaps once sm.emptyCart() is called
-        // We will compare HashMaps again as Inventory does not have a proper .equals method
-
         sm.emptyCart(0);
+        Integer[] stock = new Integer[]{10, 15};
+        for (int i = 0; i < 2; i++){
+            assertEquals(stock[i], sm.getMyInventory().getStock(i+1), "EmptyCart does not work");
+        }
 
-        HashMap<Integer, Integer> pQuantity = new HashMap<>(); // Empty HashMap
-        HashMap<Integer, Product> pInfo = new HashMap<>(); // Empty HashMap
-
-        assertEquals(pQuantity, sm.getUserCarts().get(0).getUsecrCart().getProductQuantity(), "Field init in StoreManager is not working or emptyCrt is not working");
-        assertEquals(pInfo, sm.getUserCarts().get(0).getUserCart().getProductInfo(), "Field init in StoreManager is not working or emptyCrt is not working");
     }
-    */
+
 }

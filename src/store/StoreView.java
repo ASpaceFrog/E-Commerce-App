@@ -114,7 +114,6 @@ public class StoreView {
     private void createPanels() {
         JPanel welcomePanel = createWelcomePanel();
         JPanel inventoryPanel = createInvPanel();
-        //inventoryPanel.setPreferredSize(new Dimension(FRAMEWIDTH-100, FRAMEHEIGHT));
         JScrollPane scrollPane = new JScrollPane(inventoryPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(FRAMEWIDTH - 200, FRAMEHEIGHT - 100));
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
