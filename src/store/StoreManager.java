@@ -21,7 +21,11 @@ public class StoreManager {
                 new Product("mango", 4, 3),
                 new Product("grape", 5, 3),
                 new Product("pineapple", 6, 5),
-                new Product("water malone", 7, 10),
+                new Product("kiwi", 7, 4),
+                new Product("peach", 8, 3.5),
+                new Product("pear", 9, 2.5),
+                new Product("water melon", 10, 6),
+                new Product("water malone", 11, 20)
         };
         int[] stock = new int[]{10, 15, 20, 20, 30, 40, 20};
         myInventory = new Inventory(products, stock);
