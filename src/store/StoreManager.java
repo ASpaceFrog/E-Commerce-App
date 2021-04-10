@@ -91,17 +91,17 @@ public class StoreManager {
      * Removes stock from cart inventory and transfers stock to store inventory
      *
      * @param cartID    int, Cart ID of the desired cart
-     * @param productID int, store.Product ID of product to be removed
+     * @param myProduct Product, store.Product ID of product to be removed
      * @param quantity  int, amount of removed from the cart
      * @return return true if valid product ID's and stock levels are passed,
      * else return false
      */
-    public boolean removeFromCart(int cartID, int productID, int quantity) {
-        if (userCarts.get(cartID).getUserCart().getStock(productID) - quantity < 0) {
+    public boolean removeFromCart(int cartID, Product myProduct, int quantity) {
+        if (userCarts.get(cartID).getProductQuantity(myProduct) - quantity < 0) {
             return false;
         } else {
-            userCarts.get(cartID).removeItemFromCart(productID, quantity);
-            myInventory.addStock(myInventory.getInfo(productID), quantity);
+            userCarts.get(cartID).removeProductQuantity(myProduct, quantity);
+            myInventory.addProductQuantity(myProduct, quantity);
             return true;
         }
 
