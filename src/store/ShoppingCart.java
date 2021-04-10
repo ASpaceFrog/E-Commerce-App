@@ -10,7 +10,7 @@ import java.util.Set;
  * @version 2.0
  */
 public class ShoppingCart implements ProductStockContainer {
-    private final HashMap<Product, Integer> products; // hashmap mapping products to stock levels
+    private  HashMap<Product, Integer> products; // hashmap mapping products to stock levels
     private double totalPrice;
 
     /**

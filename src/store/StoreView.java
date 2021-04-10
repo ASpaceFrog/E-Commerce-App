@@ -15,7 +15,7 @@ import java.util.HashMap;
  * @version 3.0
  */
 public class StoreView {
-    private static final CardLayout card = new CardLayout();
+    private static final CardLayout CARD = new CardLayout();
     private static final String WELCOMEPANELSTRING = "welcomePanel";
     private static final String STOREUISTRING = "storeUI";
     private static final int FRAMEHEIGHT = 788;
@@ -33,7 +33,7 @@ public class StoreView {
         this.cartID = cartID;
 
         frame = new JFrame();
-        mainPanel = new JPanel(card);
+        mainPanel = new JPanel(CARD);
         createPanels(); //create JPanels that will be utilized in the mainPanel
 
         frame.setTitle("Store GUI");
@@ -169,7 +169,7 @@ public class StoreView {
 
         JButton enter = new JButton("Enter the Store");
         enter.addActionListener(e -> {
-            card.show(mainPanel, STOREUISTRING); //goto commands
+            CARD.show(mainPanel, STOREUISTRING); //goto commands
         });
 
         JButton quit = new JButton("Quit");
@@ -345,7 +345,7 @@ public class StoreView {
         quit.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(frame, "Are you sure you want return to the menu?")
                     == JOptionPane.OK_OPTION) {
-                card.show(mainPanel, WELCOMEPANELSTRING);
+                CARD.show(mainPanel, WELCOMEPANELSTRING);
                 Product[] allProducts = myStoreManager.getUserCarts().get(cartID).getProducts();
 
                 myStoreManager.emptyCart(cartID);
