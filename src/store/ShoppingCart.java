@@ -7,7 +7,7 @@ import java.util.Set;
  * A User's shopping cart
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 1.0
+ * @version 2.0
  */
 public class ShoppingCart implements ProductStockContainer {
     private final HashMap<Product, Integer> products; // hashmap mapping products to stock levels

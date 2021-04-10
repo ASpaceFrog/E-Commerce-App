@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Text UI for this version
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 2.0
+ * @version 3.0
  */
 public class StoreView {
     private static final CardLayout card = new CardLayout();
@@ -324,9 +324,7 @@ public class StoreView {
         JPanel cartButtons = new JPanel(new BorderLayout());
 
         JButton viewCart = new JButton("View Cart");
-        viewCart.addActionListener(e -> {
-            showCart();
-        });
+        viewCart.addActionListener(e -> showCart());
 
         JButton checkout = new JButton("Checkout Cart");
         checkout.addActionListener(e -> {

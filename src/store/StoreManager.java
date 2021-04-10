@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Manages a Store's inventory. Allows transactions for products to be made.
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 1.1
+ * @version 2.0
  */
 public class StoreManager {
     //init store.Inventory to some default values

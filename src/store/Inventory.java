@@ -3,6 +3,12 @@ package store;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * A User's shopping cart
+ *
+ * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
+ * @version 2.0
+ */
 public class Inventory implements ProductStockContainer {
     private HashMap<Product, Integer> products; // hashmap mapping products to stock levels
 

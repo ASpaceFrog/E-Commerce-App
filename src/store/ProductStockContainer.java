@@ -1,7 +1,12 @@
 package store;
 
-import java.util.Set;
-
+/**
+ * \
+ * Interface to manage a Product-Stock collection
+ *
+ * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
+ * @version 1.0
+ */
 public interface ProductStockContainer {
 
     /**
@@ -38,6 +43,7 @@ public interface ProductStockContainer {
 
     /**
      * Get all the products in a hashmap
+     *
      * @return Product[], return an array containing all products in a hashmap
      */
     Product[] getProducts();
