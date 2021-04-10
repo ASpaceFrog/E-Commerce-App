@@ -53,7 +53,7 @@ public class StoreManager {
      * @return int, Returns amount of stock for given product. If product does not exist in inventory, returns -1.
      */
     public int checkStock(Product myProduct) {
-        return myInventory.getStock(myProduct.getID());
+        return myInventory.getProductQuantity(myProduct);
     }
 
     /**
@@ -70,18 +70,18 @@ public class StoreManager {
      * Add an existing product to a shopping Cart
      * Removes stock from Store inventory and transfers stock to cart inventory
      *
-     * @param cartID    int, Cart ID of the desired cart
-     * @param productID int, store.Product ID of product to be added
-     * @param quantity  int, amount of stock to add to the cart
+     * @param cartID         int, Cart ID of the desired cart
+     * @param myProduct  Product, store.Product ID of product to be added
+     * @param quantity       int, amount of stock to add to the cart
      * @return return true if valid product ID's and stock levels are passed,
      * else return false
      */
-    public boolean addToCart(int cartID, int productID, int quantity) {
-        if (myInventory.getStock(productID) == -1 || myInventory.getStock(productID) - quantity < 0) {
+    public boolean addToCart(int cartID, Product myProduct, int quantity) {
+        if (myInventory.getProductQuantity(myProduct) == -1 || myInventory.getProductQuantity(myProduct) - quantity < 0) {
             return false;
         } else {
-            userCarts.get(cartID).addItemToCart(myInventory.getInfo(productID), quantity);
-            myInventory.removeStock(productID, quantity, false);
+            userCarts.get(cartID).addProductQuantity(myProduct, quantity);
+            myInventory.removeProductQuantity(myProduct, quantity);
             return true;
         }
     }
@@ -114,13 +114,11 @@ public class StoreManager {
      */
     public void emptyCart(int cartID) {
         int amount;
-        Integer[] keys = myInventory.getIDs();
+        Product[] allProducts = myInventory.getProducts();
 
-        for (int i : keys) {
-            amount = userCarts.get(cartID).getUserCart().getStock(i);
-            removeFromCart(cartID, i, amount); //removes stock and returns to inv
+        for (Product p : allProducts) {
+            amount = userCarts.get(cartID).getProductQuantity(p);
+            removeFromCart(cartID, p, amount);
         }
     }
-
-
 }

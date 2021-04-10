@@ -140,4 +140,15 @@ public class Inventory {
         return productInfo.get(id);
     }
 
+
+    /**
+     * Get all the products in a hashmap
+     * @return Product[], return an array containing all products in a hashmap
+     */
+    public Product[] getProducts() {
+        Set<Product> hashSet = products.keySet();
+        Product[] allProducts = new Product[hashSet.size()];
+        hashSet.toArray(allProducts);
+        return allProducts;
+    }
 }

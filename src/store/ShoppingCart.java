@@ -37,6 +37,14 @@ public class ShoppingCart {
     }
 
     /**
+     * Returns the total price of the shopping cart
+     * @return double, total price of the shopping cart
+     */
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    /**
      * Add a product to the user's cart
      *
      * @param myProduct store.Product, store.Product to add
