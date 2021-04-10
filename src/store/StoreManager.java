@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Manages a Store's inventory. Allows transactions for products to be made.
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 1.1
+ * @version 2.0
  */
 public class StoreManager {
     //init store.Inventory to some default values
@@ -53,7 +53,7 @@ public class StoreManager {
      * @return int, Returns amount of stock for given product. If product does not exist in inventory, returns -1.
      */
     public int checkStock(Product myProduct) {
-        return myInventory.getStock(myProduct.getID());
+        return myInventory.getProductQuantity(myProduct);
     }
 
     /**
@@ -70,18 +70,18 @@ public class StoreManager {
      * Add an existing product to a shopping Cart
      * Removes stock from Store inventory and transfers stock to cart inventory
      *
-     * @param cartID    int, Cart ID of the desired cart
-     * @param productID int, store.Product ID of product to be added
-     * @param quantity  int, amount of stock to add to the cart
+     * @param cartID         int, Cart ID of the desired cart
+     * @param myProduct  Product, store.Product ID of product to be added
+     * @param quantity       int, amount of stock to add to the cart
      * @return return true if valid product ID's and stock levels are passed,
      * else return false
      */
-    public boolean addToCart(int cartID, int productID, int quantity) {
-        if (myInventory.getStock(productID) == -1 || myInventory.getStock(productID) - quantity < 0) {
+    public boolean addToCart(int cartID, Product myProduct, int quantity) {
+        if (myInventory.getProductQuantity(myProduct) == -1 || myInventory.getProductQuantity(myProduct) - quantity < 0) {
             return false;
         } else {
-            userCarts.get(cartID).addItemToCart(myInventory.getInfo(productID), quantity);
-            myInventory.removeStock(productID, quantity, false);
+            userCarts.get(cartID).addProductQuantity(myProduct, quantity);
+            myInventory.removeProductQuantity(myProduct, quantity);
             return true;
         }
     }
@@ -91,17 +91,17 @@ public class StoreManager {
      * Removes stock from cart inventory and transfers stock to store inventory
      *
      * @param cartID    int, Cart ID of the desired cart
-     * @param productID int, store.Product ID of product to be removed
+     * @param myProduct Product, store.Product ID of product to be removed
      * @param quantity  int, amount of removed from the cart
      * @return return true if valid product ID's and stock levels are passed,
      * else return false
      */
-    public boolean removeFromCart(int cartID, int productID, int quantity) {
-        if (userCarts.get(cartID).getUserCart().getStock(productID) - quantity < 0) {
+    public boolean removeFromCart(int cartID, Product myProduct, int quantity) {
+        if (userCarts.get(cartID).getProductQuantity(myProduct) - quantity < 0) {
             return false;
         } else {
-            userCarts.get(cartID).removeItemFromCart(productID, quantity);
-            myInventory.addStock(myInventory.getInfo(productID), quantity);
+            userCarts.get(cartID).removeProductQuantity(myProduct, quantity);
+            myInventory.addProductQuantity(myProduct, quantity);
             return true;
         }
 
@@ -114,13 +114,11 @@ public class StoreManager {
      */
     public void emptyCart(int cartID) {
         int amount;
-        Integer[] keys = myInventory.getIDs();
+        Product[] allProducts = myInventory.getProducts();
 
-        for (int i : keys) {
-            amount = userCarts.get(cartID).getUserCart().getStock(i);
-            removeFromCart(cartID, i, amount); //removes stock and returns to inv
+        for (Product p : allProducts) {
+            amount = userCarts.get(cartID).getProductQuantity(p);
+            removeFromCart(cartID, p, amount);
         }
     }
-
-
 }

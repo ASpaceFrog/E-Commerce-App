@@ -4,140 +4,96 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * A store's inventory
- * Uses two HashMaps store product quantity and information
+ * A User's shopping cart
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 1.1
+ * @version 2.0
  */
-public class Inventory {
-
-    private HashMap<Integer, Integer> productQuantity; // hashmap mapping id to quantities
-    private HashMap<Integer, Product> productInfo;     // hashmap mapping id to store.Product
+public class Inventory implements ProductStockContainer {
+    private HashMap<Product, Integer> products; // hashmap mapping products to stock levels
 
     /**
-     * Default Constructor for store.Inventory
+     * Default constructor - init to empty hashmap
      */
-    public Inventory(){
-        this(null, null);
+    public Inventory() {
+        products = new HashMap<>();
     }
 
     /**
      * Init an inventory given an array of products and their corresponding quantities
-     * @param products store.Product[], array of Products
-     * @param quantities int[], array of store.Product stock
+     *
+     * @param myProducts Product[], array of Products
+     * @param quantities int[], array of Product stock
      */
-    public Inventory(Product[] products, int[] quantities){
-        productQuantity = new HashMap<>();
-        productInfo = new HashMap<>();
+    public Inventory(Product[] myProducts, int[] quantities) {
+        products = new HashMap<>();
 
-        if (products !=null && quantities !=null && products.length == quantities.length) {
-            for (int i=0; i<products.length; i++){
-                productQuantity.put(products[i].getID(), quantities[i]);
-                productInfo.put(products[i].getID(), products[i]);
+        if (myProducts != null && quantities != null && myProducts.length == quantities.length) {
+            for (int i = 0; i < myProducts.length; i++) {
+                products.put(myProducts[i], quantities[i]);
             }
         }
     }
 
     /**
-     * Empty the inventory
+     * Gets the quantity of a given product
+     *
+     * @param myProduct Product, corresponding product
+     * @return int, Returns stock of the current product. Return -1 if product does not exist.
      */
-    public void clearInventory(){
-        productQuantity.clear();
-        productInfo.clear();
-    }
-
-    /**
-     * Get an array of all product ids
-     * @return Integer[], array containing all product ID's
-     */
-    public Integer[] getIDs(){
-        Set<Integer> hashSet = productQuantity.keySet();
-        Integer[] keys = new Integer[hashSet.size()];
-        hashSet.toArray(keys);
-
-        return keys;
-    }
-
-    /**
-     * Display the Store's store.Inventory
-     */
-    public void printInventory() {
-        System.out.println("|--------------------THE COURSE STORE--------------------|");
-        System.out.println("\\------------------------------------------------------- /");
-        System.out.println("Type 'help' for a list of commands.\n");
-        System.out.println(" ID | PRODUCT NAME | PRODUCT PRICE | STOCK");
-
-        for (int i : productQuantity.keySet()) {
-            System.out.printf("%d | %s | %f | %d\n", i, getInfo(i).getNAME(), getInfo(i).getPRICE(), getStock(i));
+    public int getProductQuantity(Product myProduct) {
+        if (products.get(myProduct) == null) { //product does not already exist
+            return -1;
+        } else {
+            return products.get(myProduct);
         }
-        System.out.print("\n\n");
-    }
-
-
-    /**
-     * Get stock of given product id
-     *
-     * @param id store.Product ID
-     * @return Returns quantity of product. Returns -1 if no id entry exists
-     */
-    public int getStock(int id) {
-        return productQuantity.getOrDefault(id, -1); //return -1 if no id entry exists
     }
 
     /**
-     * Add stock of a given product, new products are allowed
+     * Add stock to a given product
      *
-     * @param myProduct store.Product, store.Product of which stock is to be added
-     * @param amount    int, Amount of stock to add
+     * @param myProduct Product, corresponding product
+     * @param amount    int, amount of stock to be added
      */
-    public void addStock(Product myProduct, int amount) {
-        if (productQuantity.get(myProduct.getID()) == null) { //product does not already exist
-            productInfo.put(myProduct.getID(), myProduct);
-        }
-        productQuantity.put(myProduct.getID(), productQuantity.getOrDefault(myProduct.getID(), 0) + amount); //add amount
+    public void addProductQuantity(Product myProduct, int amount) {
+        products.put(myProduct, products.getOrDefault(myProduct, 0) + amount);
     }
 
     /**
-     * Remove stock of a given product id.
-     * If stock quantity becomes negative, set it to 0.
+     * Remove stock from a given product
      *
-     * @param id     int, ID of stock to remove
-     * @param amount int, Amount of stock to remove
-     * @param remIfZero boolean, remove the product if 0 stock or less (used for store.ShoppingCart)
+     * @param myProduct Product, corresponding product
+     * @param amount    int, amount of stock to be removed
+     * @return Returns true if the desired amount of stock can be removed. Returns false otherwise.
      */
-    public void removeStock(int id, int amount, boolean remIfZero) {
-        if (productQuantity.get(id) != null) {
-            if (productQuantity.get(id) - amount <= 0) {
-                if (remIfZero){
-                    removeProduct(id);
-                } else{
-                    productQuantity.put(id, 0);
-                }
-            } else {
-                productQuantity.put(id, productQuantity.getOrDefault(id, 0) - amount);
+    public boolean removeProductQuantity(Product myProduct, int amount) {
+        if (products.get(myProduct) != null) {
+            if (products.get(myProduct) - amount >= 0) {
+                products.put(myProduct, products.get(myProduct) - amount);
+                return true;
             }
         }
+        return false;
     }
 
     /**
-     * Removes (deletes) a store.Product from the inventory
+     * Get the number of products contained in this class
      *
-     * @param id int, store.Product id corresponding to product to be removed
+     * @return int, number of products
      */
-    public void removeProduct(int id){
-        productQuantity.remove(id);
-        productInfo.remove(id);
+    public int getNumOfProducts() {
+        return products.size();
     }
+
 
     /**
-     * Return information of a given product id
-     *
-     * @param id store.Product ID
-     * @return Returns store.Product containing product information
+     * Get all the products in a hashmap
+     * @return Product[], return an array containing all products in a hashmap
      */
-    public Product getInfo(int id) {
-        return productInfo.get(id);
+    public Product[] getProducts() {
+        Set<Product> hashSet = products.keySet();
+        Product[] allProducts = new Product[hashSet.size()];
+        hashSet.toArray(allProducts);
+        return allProducts;
     }
-
 }

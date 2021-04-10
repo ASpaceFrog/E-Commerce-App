@@ -12,10 +12,10 @@ import java.util.HashMap;
  * Text UI for this version
  *
  * @author Stefan Lukic - 101156711, Filip Lukic - 101156713
- * @version 2.0
+ * @version 3.0
  */
 public class StoreView {
-    private static final CardLayout card = new CardLayout();
+    private static final CardLayout CARD = new CardLayout();
     private static final String WELCOMEPANELSTRING = "welcomePanel";
     private static final String STOREUISTRING = "storeUI";
     private static final int FRAMEHEIGHT = 788;
@@ -24,7 +24,7 @@ public class StoreView {
     private static final int ICONWIDTH = 150;
     private static JFrame frame;
     private static JPanel mainPanel;
-    private final HashMap<Integer, JPanel> productPanels = new HashMap<>();
+    private final HashMap<Product, JPanel> productPanels = new HashMap<>();
     private final StoreManager myStoreManager;
     private final int cartID;
 
@@ -33,7 +33,7 @@ public class StoreView {
         this.cartID = cartID;
 
         frame = new JFrame();
-        mainPanel = new JPanel(card);
+        mainPanel = new JPanel(CARD);
         createPanels(); //create JPanels that will be utilized in the mainPanel
 
         frame.setTitle("Store GUI");
@@ -169,7 +169,7 @@ public class StoreView {
 
         JButton enter = new JButton("Enter the Store");
         enter.addActionListener(e -> {
-            card.show(mainPanel, STOREUISTRING); //goto commands
+            CARD.show(mainPanel, STOREUISTRING); //goto commands
         });
 
         JButton quit = new JButton("Quit");
@@ -205,7 +205,7 @@ public class StoreView {
         gl.setVgap(40);
         JPanel invPanel = new JPanel(gl);
 
-        Integer[] IDs = myStoreManager.getMyInventory().getIDs();
+        Product[] allProducts = myStoreManager.getMyInventory().getProducts();
         Inventory inv = myStoreManager.getMyInventory();
 
         GridBagConstraints iconC = new GridBagConstraints();
@@ -246,33 +246,33 @@ public class StoreView {
         buttonC.gridwidth = 3;
         buttonC.anchor = GridBagConstraints.LAST_LINE_END;
 
-        for (Integer id : IDs) {
+        for (Product p : allProducts) {
             JPanel productPanel = new JPanel(new GridBagLayout());
             productPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 
-            ImageIcon iconImage = createImageIcon("images/" + inv.getInfo(id).getNAME() + ".png", ICONWIDTH, ICONHEIGHT);
+            ImageIcon iconImage = createImageIcon("images/" + p.getNAME() + ".png", ICONWIDTH, ICONHEIGHT);
             JLabel icon = new JLabel();
             icon.setIcon(iconImage);
             icon.setPreferredSize(new Dimension(ICONWIDTH, ICONHEIGHT));
 
-            JLabel nameLabel = new JLabel(inv.getInfo(id).getNAME());
+            JLabel nameLabel = new JLabel(p.getNAME());
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
             JPanel textPanel = new JPanel();
 
-            JLabel priceLabel = new JLabel("$" + inv.getInfo(id).getPRICE());
+            JLabel priceLabel = new JLabel("$" + p.getPRICE());
             priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-            JLabel stockLabel = new JLabel("Stock: " + inv.getStock(id));
+            JLabel stockLabel = new JLabel("Stock: " + inv.getProductQuantity(p));
             stockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
             textPanel.add(priceLabel);
             textPanel.add(stockLabel);
 
             JPanel buttonPanel = new JPanel();
-            JButton plus = createPlusButton(id);
-            JButton minus = createMinusButton(id);
+            JButton plus = createPlusButton(p);
+            JButton minus = createMinusButton(p);
             buttonPanel.add(plus);
             buttonPanel.add(minus);
 
@@ -282,7 +282,7 @@ public class StoreView {
             productPanel.add(buttonPanel, buttonC);
             productPanel.setPreferredSize(new Dimension(2 * ICONWIDTH, 2 * ICONHEIGHT));
             invPanel.add(productPanel);
-            productPanels.put(id, productPanel);
+            productPanels.put(p, productPanel);
         }
         return invPanel;
     }
@@ -291,19 +291,19 @@ public class StoreView {
      * Displays the user's shopping cart as a popup message
      */
     private void showCart() {
-        Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
+        Product[] allProducts = myStoreManager.getUserCarts().get(cartID).getProducts();
         String name;
         int cartStock;
         double productPrice;
         StringBuilder sb = new StringBuilder();
 
-        if (IDs.length == 0) {
+        if (allProducts.length == 0) {
             sb.append("Empty");
         } else {
-            for (int id : IDs) {
-                name = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getNAME();
-                cartStock = myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(id);
-                productPrice = myStoreManager.getUserCarts().get(cartID).getUserCart().getInfo(id).getPRICE();
+            for (Product p : allProducts) {
+                name = p.getNAME();
+                cartStock = myStoreManager.getUserCarts().get(cartID).getProductQuantity(p);
+                productPrice = p.getPRICE();
                 sb.append(name).append(": ").append(cartStock).append(" $").append(productPrice).append("\n");
             }
             sb.append("Total Price: $").append(myStoreManager.getUserCarts().get(cartID).getTotalPrice());
@@ -324,21 +324,19 @@ public class StoreView {
         JPanel cartButtons = new JPanel(new BorderLayout());
 
         JButton viewCart = new JButton("View Cart");
-        viewCart.addActionListener(e -> {
-            showCart();
-        });
+        viewCart.addActionListener(e -> showCart());
 
         JButton checkout = new JButton("Checkout Cart");
         checkout.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to checkout?")
                     == JOptionPane.OK_OPTION) {
                 //save a copy of the product IDs in the user's cart
-                Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
+                Product[] allProducts = myStoreManager.getUserCarts().get(cartID).getProducts();
 
                 checkout();
                 //update buttons so the user cannot remove stock from products that were previously in the cart
-                for (int id : IDs) {
-                    updateButtons(id);
+                for (Product p : allProducts) {
+                    updateButtons(p);
                 }
             }
         });
@@ -347,13 +345,13 @@ public class StoreView {
         quit.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(frame, "Are you sure you want return to the menu?")
                     == JOptionPane.OK_OPTION) {
-                card.show(mainPanel, WELCOMEPANELSTRING);
-                Integer[] IDs = myStoreManager.getUserCarts().get(cartID).getUserCart().getIDs();
+                CARD.show(mainPanel, WELCOMEPANELSTRING);
+                Product[] allProducts = myStoreManager.getUserCarts().get(cartID).getProducts();
 
                 myStoreManager.emptyCart(cartID);
                 //update buttons so the user cannot remove stock from products that were previously in the cart
-                for (int id : IDs) {
-                    updateButtons(id);
+                for (Product p : allProducts) {
+                    updateButtons(p);
                 }
             }
         });
@@ -367,14 +365,14 @@ public class StoreView {
     /**
      * Create a plus button to add a product to the user's cart
      *
-     * @param productID int, ID of product to add to cart
+     * @param myProduct Product, ID of product to add to cart
      * @return JButton, return the competed plus button
      */
-    private JButton createPlusButton(int productID) {
+    private JButton createPlusButton(Product myProduct) {
         JButton plus = new JButton("+");
         plus.addActionListener(e -> {
-            myStoreManager.addToCart(cartID, productID, 1);
-            updateButtons(productID);
+            myStoreManager.addToCart(cartID, myProduct, 1);
+            updateButtons(myProduct);
         });
         return plus;
     }
@@ -382,14 +380,14 @@ public class StoreView {
     /**
      * Create a minus button to remove a product from the user's cart
      *
-     * @param productID int, ID of product to add to cart
+     * @param myProduct Product, ID of product to add to cart
      * @return JButton, return the competed minus button
      */
-    private JButton createMinusButton(int productID) {
+    private JButton createMinusButton(Product myProduct) {
         JButton minus = new JButton("-");
         minus.addActionListener(e -> {
-            myStoreManager.removeFromCart(cartID, productID, 1);
-            updateButtons(productID);
+            myStoreManager.removeFromCart(cartID, myProduct, 1);
+            updateButtons(myProduct);
         });
         minus.setEnabled(false); //button is disabled by default
         return minus;
@@ -397,24 +395,24 @@ public class StoreView {
 
     /**
      * Updates the availability of the plus and minus button
-     * depending on teh Store's stock and the quantity of a stock in the user's cart
+     * depending on the Store's stock and the quantity of a stock in the user's cart
      *
-     * @param productID int, id of a Product
+     * @param myProduct Product, id of a Product
      */
-    private void updateButtons(int productID) {
+    private void updateButtons(Product myProduct) {
         //update store stock value
-        JPanel textPanel = (JPanel) productPanels.get(productID).getComponents()[2];
+        JPanel textPanel = (JPanel) productPanels.get(myProduct).getComponents()[2];
         JLabel stockLabel = (JLabel) textPanel.getComponents()[1];
-        stockLabel.setText(String.valueOf(myStoreManager.getMyInventory().getStock(productID)));
+        stockLabel.setText(String.valueOf(myStoreManager.getMyInventory().getProductQuantity(myProduct)));
 
         //update button states
-        JPanel buttonPanel = (JPanel) productPanels.get(productID).getComponents()[3];
+        JPanel buttonPanel = (JPanel) productPanels.get(myProduct).getComponents()[3];
         JButton plus = (JButton) buttonPanel.getComponents()[0];
         JButton minus = (JButton) buttonPanel.getComponents()[1];
 
         //store still has stock
-        plus.setEnabled(myStoreManager.getMyInventory().getStock(productID) > 0);
+        plus.setEnabled(myStoreManager.getMyInventory().getProductQuantity(myProduct) > 0);
         //more than 0 of product in cart
-        minus.setEnabled(myStoreManager.getUserCarts().get(cartID).getUserCart().getStock(productID) > 0);
+        minus.setEnabled(myStoreManager.getUserCarts().get(cartID).getProductQuantity(myProduct) > 0);
     }
 }
