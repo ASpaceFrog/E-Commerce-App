@@ -66,8 +66,13 @@ public class ShoppingCart implements ProductStockContainer {
             if (products.get(myProduct) - amount >= 0) {
                 products.put(myProduct, products.get(myProduct) - amount);
                 this.totalPrice -= myProduct.getPRICE() * amount;
+
+                if (products.get(myProduct) == 0){
+                    products.remove(myProduct);
+                }
                 return true;
             }
+
         }
         return false;
     }
