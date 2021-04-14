@@ -31,12 +31,21 @@ public class StoreManager {
     }
 
     /**
-     * Get the store's inventory
+     * Gets the quantity of a given product
      *
-     * @return store.Inventory, store's inventory
+     * @param myProduct Product, corresponding product
+     * @return int, Returns stock of the current product. Return -1 if product does not exist.
      */
-    public Inventory getMyInventory() {
-        return myInventory;
+    public int getProductQuantity(Product myProduct){
+        return myInventory.getProductQuantity(myProduct);
+    }
+
+    /**
+     * Get all the products in a hashmap
+     * @return Product[], return an array containing all products in a hashmap
+     */
+    public Product[] getProducts(){
+        return myInventory.getProducts();
     }
 
     /**

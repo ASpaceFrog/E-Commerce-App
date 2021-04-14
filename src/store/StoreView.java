@@ -205,8 +205,7 @@ public class StoreView {
         gl.setVgap(40);
         JPanel invPanel = new JPanel(gl);
 
-        Product[] allProducts = myStoreManager.getMyInventory().getProducts();
-        Inventory inv = myStoreManager.getMyInventory();
+        Product[] allProducts = myStoreManager.getProducts();
 
         GridBagConstraints iconC = new GridBagConstraints();
         iconC.gridx = 0;
@@ -264,7 +263,7 @@ public class StoreView {
             JLabel priceLabel = new JLabel("$" + p.getPRICE());
             priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-            JLabel stockLabel = new JLabel("Stock: " + inv.getProductQuantity(p));
+            JLabel stockLabel = new JLabel("Stock: " + myStoreManager.getProductQuantity(p));
             stockLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
             textPanel.add(priceLabel);
@@ -403,7 +402,7 @@ public class StoreView {
         //update store stock value
         JPanel textPanel = (JPanel) productPanels.get(myProduct).getComponents()[2];
         JLabel stockLabel = (JLabel) textPanel.getComponents()[1];
-        stockLabel.setText(String.valueOf(myStoreManager.getMyInventory().getProductQuantity(myProduct)));
+        stockLabel.setText(String.valueOf(myStoreManager.getProductQuantity(myProduct)));
 
         //update button states
         JPanel buttonPanel = (JPanel) productPanels.get(myProduct).getComponents()[3];
@@ -411,7 +410,7 @@ public class StoreView {
         JButton minus = (JButton) buttonPanel.getComponents()[1];
 
         //store still has stock
-        plus.setEnabled(myStoreManager.getMyInventory().getProductQuantity(myProduct) > 0);
+        plus.setEnabled(myStoreManager.getProductQuantity(myProduct) > 0);
         //more than 0 of product in cart
         minus.setEnabled(myStoreManager.getUserCarts().get(cartID).getProductQuantity(myProduct) > 0);
     }
