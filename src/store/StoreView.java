@@ -24,9 +24,9 @@ public class StoreView {
     private static final int ICONWIDTH = 150;
     private static JFrame frame;
     private static JPanel mainPanel;
-    private final HashMap<Product, JPanel> productPanels = new HashMap<>();
-    private final StoreManager myStoreManager;
-    private final int cartID;
+    private HashMap<Product, JPanel> productPanels = new HashMap<>();
+    private StoreManager myStoreManager;
+    private int cartID;
 
     public StoreView(StoreManager myStoreManager, int cartID) {
         this.myStoreManager = myStoreManager;
